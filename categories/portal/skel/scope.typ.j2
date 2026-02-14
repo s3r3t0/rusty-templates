@@ -1,0 +1,26 @@
+((= Scope =))
+
+The scope of the cloud environment review was limited to the scope given below.
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+)
+
+((* if target.data.locators | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Subscription Names/IDs]),
+        ((* for loc in target.data.locators -*))
+            raw( "(((- loc.value -)))" ),
+        ((*- endfor *))
+        )
+((*- else -*))
+    _No subscription names or IDs were provided for this target._
+((*- endif *))
