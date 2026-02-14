@@ -1,0 +1,65 @@
+((= Scope =))
+
+((* if target.data.clickpath -*))
+    The scope of the penetration test was described in:
+
+        - ` (((- target.data.clickpath -))) ` document
+((* else -*))
+    The scope of the mobile application test was limited to the scope given below.
+((*- endif *))
+
+((* set android = target.data.android | default(None) *))
+((* set ios = target.data.ios | default(None) *))
+((* set file_integrity = {} *))
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+    "Platforms", "((( ["Android" if android, "iOS" if ios] | select | join(", ") )))",
+)
+
+((* if android -*))
+    #table(
+        columns: (2fr, 3fr),
+        table.header(
+            table.cell(colspan: 2, "Android")
+        ),
+        "Package name", "((( android.package_name )))",
+        "Version", "((( android.version_name )))",
+        "Version code", "((( android.version_code )))",
+    )
+
+    ((* set _ = file_integrity.update(android.file_integrity) *))
+((*- endif *))
+
+((* if ios -*))
+    #table(
+        columns: (2fr, 3fr),
+        table.header(
+            table.cell(colspan: 2, "iOS")
+        ),
+        "Bundle ID", "((( ios.bundle_id )))",
+        "Version", "((( ios.short_version_string )))",
+        "Build", "((( ios.version )))",
+    )
+
+    ((* set _ = file_integrity.update(ios.file_integrity) *))
+((*- endif *))
+
+((* if file_integrity | length > 0 *))
+    #table(
+        columns: (2fr, 3fr),
+        table.header(
+            table.cell(colspan: 2, "File Integrity (SHA-256)")
+        ),
+        ((* for name, hash in file_integrity.items() -*))
+            raw( "(((- name -)))" ), raw( "(((- hash -)))" ),
+        ((*- endfor *))
+    )
+((* endif *))
