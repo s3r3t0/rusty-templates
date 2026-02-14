@@ -1,0 +1,100 @@
+// ((( MANUAL_EDIT_WARNING )))
+((* set team = c.filter_people(type="author") | first | attr("business_unit") *))
+((* set company = c.filter_people(type="requestor") | first | attr("business_unit") *))
+
+#import "/includes/glossy/gloss.typ": init-glossary, glossary, theme-table
+#import "/includes/sereto.typ": *
+
+#show: init-glossary.with(yaml("/includes/glossary.yaml"))
+
+((* set ns = namespace(ids=[]) -*))
+((* for v in config.versions if v <= version -*))
+  ((* set ns.ids = ns.ids + [config.at_version(v).id] -*))
+((* endfor -*))
+((*- set unique_ids = ns.ids | unique | list -*))
+((*- set show_request_id = ( unique_ids | length ) > 1 *))
+
+#show: sereto.with(
+  format: "
+    ((*- block format -*))
+      full
+    ((*- endblock format -*))
+  ",
+  title: [
+    ((*- block title -*))
+      ((( c.id ))) -- ((( c.name )))
+    ((*- endblock title -*))
+  ],
+  specification: [
+    ((*- block specification -*))
+    ((*- endblock specification -*))
+  ],
+  subtitle: [
+    ((*- block subtitle -*))
+      Penetration test report -- ((( version )))
+    ((*- endblock subtitle -*))
+  ],
+  author: ("
+    ((*- block author -*))
+      ((( team )))
+    ((*- endblock author -*))
+  "),
+  date: [
+    ((*- block date -*))
+      ((( c.report_sent_date )))
+    ((*- endblock date -*))
+  ],
+  changelog: (
+    ((*- block changelog -*))
+      ((* for v in config.versions if v <= version *))
+        ((* with c = config.at_version(v) -*))
+          (
+            version: "((( v )))",
+            ((* if show_request_id -*))
+              id: "((( c.id )))",
+            ((*- endif *))
+            date: "((( c.report_sent_date )))",
+            authors: "((( c.filter_people("author") | join("; ", attribute="name") )))",
+            description: "((( c.version_description )))",
+          ),
+          ((* if c.filter_people("reviewer") | length -*))
+            (
+              date: "((( c.filter_dates(type="review", last_date=True) )))",
+              authors: "((( c.filter_people("reviewer") | join("; ", attribute="name") )))",
+              description: "Review",
+            ),
+          ((*- endif *))
+        ((*- endwith *))
+      ((*- endfor *))
+    ((*- endblock changelog -*))
+  ),
+)
+
+  ((* block preamble *))((* endblock *))
+
+  #show: end-preamble
+  ((* block content required *))((* endblock *))
+
+  #show: appendix
+  ((* block appendix *))
+
+  = Points of contact
+
+    ((*- for bu, people_in_bu in c.filter_people(type=["author", "requestor", "technical_contact"], business_unit='.*') | groupby("business_unit") *))
+      == ((( bu )))
+      ((*- for person in people_in_bu *))
+          #h(1em)
+          / Name: ((( person.name )))
+            ((*- if person.role -*))
+              , _((( person.role )))_
+            ((*- endif *))
+          / E-mail: #link(" (((- person.email -))) ")
+      ((* endfor -*))
+    ((* endfor -*))
+
+  #glossary(
+    title: "Acronyms",
+    theme: theme-table,
+    groups: ("")
+  )
+((* endblock *))

@@ -1,0 +1,59 @@
+#let theme = (
+black: rgb("000000"),
+white: rgb("FFFFFF"),
+grey-dark: rgb("1A1A1A"),
+grey: rgb("404040"),
+grey-light: rgb("BABABA"),
+grey-extra-light: rgb("F0F0F0"),
+red: rgb("FF0000"),
+red-light: rgb("FFCCCC"),
+orange-dark: rgb("E64415"),
+orange: rgb("FFA500"),
+orange-light: rgb("FFEDCC"),
+yellow: rgb("F0F000"),
+yellow-light: rgb("FFFFCC"),
+green: rgb("29A329"),
+green-light: rgb("D6F5D6"),
+blue: rgb("3366FF"),
+blue-light: rgb("CCD9FF"),
+)
+
+#let colors = (
+critical: theme.red,
+critical-dimmed: theme.red-light,
+high: theme.orange,
+high-dimmed: theme.orange-light,
+medium: theme.yellow,
+medium-dimmed: theme.yellow-light,
+low: theme.green,
+low-dimmed: theme.green-light,
+info: theme.blue,
+info-dimmed: theme.blue-light,
+text-default: theme.grey-dark,
+text-attentional: theme.black,
+background-default: theme.white,
+link: theme.black,
+text-subtle: theme.grey,
+heading: theme.black,
+warning: theme.orange-dark,
+table-header: theme.grey,
+table-row: theme.grey-light,
+code-background: theme.grey-extra-light,
+code-border: theme.grey-light,
+code-numbers: theme.grey-light,
+)
+#colors.insert("risk-critical", colors.critical)
+#colors.insert("risk-critical-container", colors.critical-dimmed)
+#colors.insert("risk-high", colors.high)
+#colors.insert("risk-high-container", colors.high-dimmed)
+#colors.insert("risk-medium", colors.medium)
+#colors.insert("risk-medium-container", colors.medium-dimmed)
+#colors.insert("risk-low", colors.low)
+#colors.insert("risk-low-container", colors.low-dimmed)
+#colors.insert("risk-info", colors.info)
+#colors.insert("risk-info-container", colors.info-dimmed)
+#colors.insert("header", colors.text-attentional)
+#colors.insert("footer", colors.text-subtle)
+#colors.insert("subheading", colors.text-attentional)
+#colors.insert("text", colors.text-default)
+#colors.insert("footnote", colors.text-subtle)

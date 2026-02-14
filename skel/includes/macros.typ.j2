@@ -1,0 +1,55 @@
+((* macro findings_table(target, config) -*))
+  #table(
+    columns: (2em, 1fr, 5em, 7em),
+    table.header[ID][Vulnerability][Risk][Due date],
+    ((* for finding_group in target.findings.groups -*))
+      [((( loop.index )))],
+      [#link(< (((- target.uname -))) _ (((- finding_group.uname -))) >)[((( finding_group.name )))]],
+      [((( finding_group.risk | capitalize )))],
+      [((( config.due_date(finding_group.risk, finding_group.reported_on) | default('', true) )))],
+    ((* endfor -*))
+  )
+((*- endmacro *))
+
+((* macro finding_details(risk, locators=[], locators_title="Application or Host", details=none) -*))
+    {
+    set list(marker: [], indent: 1em)
+    ((*- if locators | length > 0 *))
+        strong("(((- locators_title -)))")
+        list(
+        ((* for loc in locators -*))
+            list.item(raw("(((- loc.value -)))")),
+        ((*- endfor *))
+        )
+    ((*- endif *))
+    strong("Technical Risk")
+    list(list.item("(((- risk | capitalize -)))"))
+    ((*- if details is not none *))
+        ((* for key, value in details | items -*))
+            ((* if value *))
+                strong("(((- key -)))")
+                list(list.item("(((- value -)))"))
+            ((* endif *))
+        ((* endfor *))
+    ((*- endif *))
+    }
+((*- endmacro *))
+
+((* macro finding_group_details(risk, locators, details=none, locators_title="Application or Host") -*))
+  #showybox(
+    frame: (
+      border-color: colors.risk-(((- risk -))),
+      body-color: colors.code-background,
+    ),
+    grid(
+      columns: (auto, 1fr),
+      gutter: 1em,
+      align: left + horizon,
+      image(
+        "/pictures/(((- risk | lower -))).png",
+        width: 2cm,
+      ),
+      ((( finding_details(risk=risk, locators=locators, locators_title=locators_title, details=details) )))
+    )
+  )
+((*- endmacro *))

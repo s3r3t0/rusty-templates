@@ -1,0 +1,65 @@
+((* extends "_base.typ.j2" *))
+
+
+((* block preamble *))
+= Management summary
+
+    ((* for person in c.filter_people(type="requestor") -*))
+        ((( person.name ))) ( (((- person.business_unit -))) ) (((- ', ' if not loop.last )))
+    ((*- endfor *)) engaged the ((( c.filter_people(type="author") | join(", ", "name") ))) ( (((- team -))) ) to perform a penetration test ((( c.name ))) (reference number ((( c.id )))) consisting of:
+
+    ((* if c.targets | length *))
+        ((* for t in c.targets *))
+            -  @(((- t.data.category | upper -))):long:cap of ((( t.data.name ))) target
+            ((*- if t.data.id *))
+                ( (((- t.data.id -))) )
+            ((*- endif *))
+        ((* endfor *))
+    ((* else *))
+        The engagement has not been specified.
+    ((* endif *))
+
+    ((* if c.filter_dates(type="pentest_ongoing") | length *))
+        The ((( team ))) team performed the engagement in the following timeframe:
+
+        ((* for date in c.filter_dates(type="pentest_ongoing") *))
+            - ((( date )))
+        ((* endfor *))
+    ((* else *))
+        The engagement timeframe has not been specified.
+    ((* endif *))
+
+== Results summary
+
+    ((* if c.total_open_risks > 0 -*))
+        During the engagement, the ((( team ))) team discovered ((( c.total_open_risks )))
+        ((* if  c.total_open_risks > 1 -*))
+            vulnerabilities
+        ((*- else -*))
+            vulnerability
+        ((*- endif *))
+        and associated
+        ((* if  c.total_open_risks > 1 -*))
+            them
+        ((*- else -*))
+            it
+        ((*- endif *))
+        the following severity:
+        ((*- for risk, count in c.sum_risks if count > 0 *))
+            - ((( count -))) ((* if count > 1 *)) findings ((* else *)) finding ((* endif *)) with ((( risk | capitalize ))) technical risk
+        ((* endfor -*))
+
+        To mitigate the identified risks, refer to the Recommendation section for each finding in appropriate target chapter.
+    ((* else *))
+        During the engagement, the ((( team ))) team was not able to determine whether there is any vulnerability present.
+        This may be due to the limited time of the engagement or other factors that may have limited the scope of the engagement.
+    ((*- endif *))
+
+((* endblock preamble *))
+
+
+((* block content *))
+  ((*- for target in c.targets *))
+    ((* include target.uname + ".typ.j2" *))
+  ((* endfor -*))
+((* endblock content *))

@@ -1,0 +1,17 @@
+# SeReTo
+.build/
+pdf/
+attachment_exclude/**
+
+# Git
+*/.git/**
+*/.gitmodules
+*/.gitattributes
+
+# IDE
+.vscode/
+AGENTS.md
+
+# Exceptions
+!.sereto
+!config.json

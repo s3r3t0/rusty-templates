@@ -1,0 +1,91 @@
+api:
+  short: API
+  long: Application Programming Interface
+
+csrf:
+  short: CSRF
+  long: Cross-site Request Forgery
+
+http:
+  short: HTTP
+  long: Hypertext Transfer Protocol
+
+https:
+  short: HTTPS
+  long: Hypertext Transfer Protocol Secure
+
+ip:
+  short: IP
+  long: Internet Protocol address
+  longplural: Internet Protocol addresses
+
+regex:
+  short: regex
+  long: regular expression
+  plural: regexes
+
+url:
+  short: URL
+  long: Uniform Resource Locator
+
+waf:
+  short: WAF
+  long: Web Application Firewall
+
+wifi:
+  short: Wi-Fi
+  long: Wireless Fidelity
+
+xss:
+  short: XSS
+  long: Cross-site Scripting
+
+xxe:
+  short: XXE
+  long: XML External Entity
+
+# Categories
+CICD:
+  short: CI/CD
+  long: CI/CD pipeline security review
+  group: Category
+
+DAST:
+  short: DAST
+  long: dynamic application test
+  group: Category
+
+INFRASTRUCTURE:
+  short: Infra
+  long: infrastructure penetration test
+  group: Category
+
+KUBERNETES:
+  short: K8S
+  long: Kubernetes infrastructure penetration test
+  group: Category
+
+MOBILE:
+  short: Moba
+  long: mobile application penetration test
+  group: Category
+
+PORTAL:
+  short: Portal
+  long: Cloud environment security review
+  group: Category
+
+RD:
+  short: RD
+  long: responsible disclosure
+  group: Category
+
+SAST:
+  short: SAST
+  long: secure source code review
+  group: Category
+
+SCENARIO:
+  short: Scenario
+  long: scenario-based penetration test
+  group: Category

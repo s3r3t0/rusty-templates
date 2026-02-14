@@ -1,0 +1,112 @@
+((* extends "_base.typ.j2" *))
+
+
+((* block subtitle -*))
+  Statement of Work -- ((( version )))
+((*- endblock subtitle *))
+
+
+((* block date -*))
+  ((( c.filter_dates("sow_sent") | last | default("n/a") )))
+((*- endblock date *))
+
+
+((* block preamble *))
+= Management summary
+
+    ((* for person in c.filter_people(type="requestor") -*))
+        ((( person.name ))) ( (((- person.business_unit -))) ) (((- ', ' if not loop.last )))
+    ((*- endfor *)) engaged the ((( c.filter_people(type="author") | join(", ", "name") ))) ( (((- team -))) ) to perform a penetration test ((( c.name ))) (reference number ((( c.id )))) consisting of:
+
+    ((* if c.targets | length *))
+        ((* for t in c.targets *))
+            - @((( t.data.category | upper ))):long:cap of #quote[((( t.data.name )))] target
+            ((*- if t.data.id *))
+                ( (((- t.data.id -))) )
+            ((*- endif *))
+        ((* endfor *))
+
+        Detailed information about the engagement is provided in the sections dedicated to each target.
+    ((* else *))
+        The engagement has not been specified.
+    ((* endif *))
+
+    ((* if c.filter_dates(type="pentest_ongoing") | length *))
+        The ((( team ))) team will perform the engagement in the following timeframe:
+
+        ((* for date in c.filter_dates(type="pentest_ongoing") *))
+            - ((( date )))
+        ((* endfor *))
+    ((* else *))
+        The engagement timeframe has not been specified.
+    ((* endif *))
+
+== Objective
+
+    The objective of this project is to identify and assess security vulnerabilities in ((( company ))) networks, systems, and applications.
+    The goal is to provide actionable recommendations to mitigate identified risks and enhance the overall security posture of ((( company ))).
+
+== Project deliverables
+
+    The product of this security assessment will be a report outlining all discovered vulnerabilities and providing remediation recommendations.
+
+== Responsibilities
+
+    The ((( team ))) team will be responsible for conducting the penetration test, analyzing the results, and preparing the final report.
+    ((( company ))) will be responsible for providing access to the necessary systems and information required for the engagement.
+
+== Preparation
+
+    To ensure optimal results, the following prerequisites must be fulfilled before the engagement starts.
+    Please refer to the @prerequisites for more details.
+((* endblock preamble *))
+
+((* block content *))
+  ((*- for target in c.targets *))
+    = ((( target.data.name )))
+    <((( target.uname )))>
+
+    == Scope
+      ((* include target.uname + "/scope.typ.j2" *))
+
+    == Approach
+      ((* include target.uname + "/approach.typ.j2" *))
+
+    == Test Prerequisites
+      ((* include target.uname + "/prerequisites.typ.j2" *))
+  ((* endfor *))
+((* endblock content *))
+
+
+((* block appendix *))
+= Prequisites
+<prerequisites>
+
+    The following prerequisites must be fulfilled before the engagement starts.
+
+== Access
+
+    To perform the penetration test, the ((( team ))) team will require access to the systems and applications in scope.
+    Access will be provided by ((( company ))), and the necessary credentials and permissions will be granted to the team.
+    The access will be provided in a secure manner, and the team will follow all security protocols and guidelines provided by ((( company ))).
+
+== Documentation
+
+    To ensure a comprehensive assessment, the ((( team ))) team will require access to relevant documentation, such as network diagrams, system architecture, and application design documents.
+    This information will help the team understand the environment and identify potential attack vectors.
+    The documentation will be provided by ((( company ))), and the team will review it before the engagement starts.
+
+== Environment
+
+    The penetration test will be conducted in a controlled environment, and the team will take all necessary precautions to avoid any disruption to the production systems.
+    The team will coordinate with ((( company ))) to schedule the engagement at a time that minimizes the impact on business operations.
+    The team will also ensure that all testing activities are conducted in accordance with the agreed-upon scope and approach.
+
+== Code Freeze
+
+    To ensure the stability of the environment during the engagement, a code freeze will be implemented for the systems and applications in scope.
+    This means that no changes will be made to the codebase or configuration of the systems during the engagement, unless explicitly agreed upon by both parties.
+    The code freeze will help prevent any unintended consequences or disruptions that may arise from changes made during the testing period.
+
+    ((( super() )))
+((* endblock appendix *))

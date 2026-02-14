@@ -1,0 +1,10 @@
+((* extends "_base.typ.j2" *))
+
+((* block subtitle *))
+    Penetration test report -- ((( version )))
+((* endblock subtitle *))
+
+((* block content *))
+  #counter(heading).update( ((( target_index ))) )
+  ((* include target.uname + ".typ.j2" *))
+((* endblock content *))
