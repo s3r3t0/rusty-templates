@@ -71,6 +71,10 @@ You can install the [SeReTo] and the requirements for the templates plugins with
 uv tool install sereto@latest --with-requirements requirements.txt
 ```
 
+## Contributing
+
+See [`AGENTS.md`](AGENTS.md) for development guidelines, template conventions, and instructions for coding agents.
+
 ## Versioning
 
 We use [Semantic Versioning][semver] for versioning. For the versions available, see the [tags on this repository][tags] or the full [Changelog].
