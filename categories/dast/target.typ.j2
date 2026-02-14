@@ -3,21 +3,28 @@
 = ((( target.data.name )))
 <((( target.uname )))>
 
-    The ((( target.data.name ))) is a continuous integration pipeline which #lorem(15).
+    The ((( target.data.name ))) is a web application which #lorem(15).
 
 == Assignment
 
-    The penetration test of the ((( target.data.name ))) focused on the evaluation of the security controls implemented in the CI/CD pipeline and the identification of potential vulnerabilities that could be exploited by an attacker to compromise the confidentiality, integrity, or availability of the systems and data involved in the pipeline.
+    The penetration test of the ((( target.data.name ))) focused on the evaluation of the security controls implemented in the web application and the identification of potential vulnerabilities that could be exploited by an attacker to compromise the confidentiality, integrity, or availability of the systems and data involved in the web application.
+
+    ((*- if target.data.waf_present and not target.data.waf_whitelisted *))
+        === Limitations
+
+        The web application is protected by @waf:a. The @waf was not whitelisted for the testing activities, which may have limited the ability to identify certain vulnerabilities or attack vectors that could be exploited by an attacker.
+    ((*- endif *))
 
 === Scope
 
     ((* include target.uname + "/scope.typ.j2" *))
 
-=== @CICD:long:cap
+=== @DAST:long:cap
 
     ((* include target.uname + "/approach.typ.j2" *))
 
 == Findings
+
     ((*- if target.findings.risks.sum_open > 0 *))
         During the penetration test of the ((( target.data.name ))) target, the ((( team ))) team discovered ((( target.findings.risks.sum_open )))
         ((* if target.findings.risks.sum_open > 1 -*))

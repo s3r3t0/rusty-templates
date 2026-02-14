@@ -1,0 +1,84 @@
++++
+name = "Cookies Scoped to Parent Domain"
+risk = "low"
+keywords = ["cookie", "cookie scope", "parent domain", "frontend security", "session management"]
+
+[[variables]]
+name = "images"
+description = "screenshots showing the cookie scope"
+required = true
+list = true
+
+[[variables]]
+name = "cookies"
+description = "names of the cookies that are scoped to the parent domain"
+list = true
+
+[[variables]]
+name = "domain"
+description = "the parent domain to which the cookies are scoped"
++++
+
+
+{# Reporting hint:
+    Use the https://github.com/s3r3t0/web-extension firefox extension for easy cookie inspection.
+
+    Example output:
+
+    [variables]
+    cookies = [
+        "user_id",
+        "preffered_language"
+    ]
+    domain = ".example.com"
+#}
+
+
+{% extends "_base.md" %}
+
+
+{% block description -%}
+
+{% if f.vars.cookies is defined -%}
+The application sets cookies that are scoped to the parent domain `{{ f.vars.domain | default('example.com') }}`. This means that those cookies will be accessible by the parent domain and also by any other subdomains of the parent domain. This can lead to security issues if the cookies contain sensitive data (such as session tokens) and if there are less trusted or less secure applications residing at those domains, which may be able to access that data.
+
+The following cookies are scoped to the parent domain `{{ f.vars.domain | default('example.com') }}`:
+
+{% for cookie in f.vars.cookies -%}
+- `{{cookie}}`
+{% endfor %}
+{% else %}
+The following cookie is scoped to the parent domain `{{ f.vars.domain | default('example.com') }}`:
+
+- `example_cookie`
+{% endif %}
+
+{% for image in f.vars.images -%}
+    ![Browser developer tools showing application's cookie jar]({{image}}){width=90%}
+{% endfor %}
+
+{% endblock description %}
+
+
+{% block likelihood -%}
+- The likelihood of this issue occurring depends on the specific implementation of the application and the sensitivity of the information stored in the cookies that are scoped to the parent domain.
+- If the cookies that are scoped to the parent domain contain sensitive information, such as authentication tokens or personally identifiable information, the likelihood of this issue being exploited by malicious actors increases significantly.
+{% endblock likelihood %}
+
+
+{% block impact -%}
+If the cookies that are scoped to the parent domain contain sensitive information and if there are less trusted or less secure applications residing at the parent domain or its subdomains, then those applications may be able to access that sensitive information, which can lead to security and privacy risks for users.
+{% endblock impact %}
+
+
+{% block recommendation -%}
+To mitigate this issue, it is recommended to scope cookies to the specific subdomain that requires access to them, rather than scoping them to the parent domain. This can be achieved by setting the `Domain` attribute of the cookie to the specific subdomain instead of the parent domain. For example, if a cookie is only needed for the subdomain `app.example.com`, then the `Domain` attribute should be set to `app.example.com` instead of `.example.com`. This way, only applications residing at `app.example.com` will have access to that cookie, and applications residing at other subdomains (such as `blog.example.com`) will not have access to it, which can help reduce security and privacy risks for users.
+{% endblock recommendation %}
+
+
+{% block reference -%}
+- [MDN Web Docs -- Set-Cookie header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie#domaindomain-value)
+- [Acunetix -- Why Scoping Cookies to Parent Domains is a Bad Idea](https://www.acunetix.com/blog/articles/why-scoping-cookies-to-parent-domains-is-a-bad-idea/)
+- [OWASP Cheat Sheet Series -- Session Management](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html#cookies)
+- [PortSwigger -- Cookie scoped to parent domain](https://portswigger.net/kb/issues/00500300_cookie-scoped-to-parent-domain)
+{% endblock reference %}

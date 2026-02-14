@@ -1,0 +1,69 @@
+((= Scope =))
+
+((* if target.data.api or target.data.clickpath -*))
+    The scope of the penetration test was described in:
+    ((* if target.data.clickpath -*))
+        - ` (((- target.data.clickpath -))) ` document
+    ((*- endif *))
+    ((* if target.data.api -*))
+        - ` (((- target.data.api -))) ` api collection
+    ((*- endif *))
+((* else -*))
+    The scope of the penetration test was limited to the scope given below.
+((*- endif *))
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+    [Target @ip:short:pl],
+        ((* if target.data.dst_ips_dynamic -*))
+            "Dynamic ( (((- target.data.dst_ips_dynamic_details -))) )",
+        ((* else -*))
+            [
+                ((*- for ip in target.filter_locators("ip") -*))
+                    #raw( "((( ip.value)))" ) ((( "\\" if not loop.last )))
+                ((* endfor -*))
+            ],
+        ((*- endif *))
+    "Environment", "((( target.data.environment | capitalize )))",
+    ((* if target.data.src_ips -*))
+        [((( team )))  @ip:short:pl],
+            [
+                ((*- for ip in target.data.src_ips -*))
+                    #raw( "((( ip )))" ) ((( "\\" if not loop.last )))
+                ((* endfor -*))
+            ],
+    ((*- endif *))
+)
+
+((* if target.filter_locators("url") | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Target @url:short:pl:cap]),
+        ((* for url in target.filter_locators("url") -*))
+            raw( "(((- url.value -)))" ),
+        ((*- endfor *))
+    )
+((*- else -*))
+    _No @url was provided for the target._
+((*- endif *))
+
+#table(
+    columns: (3fr, 2fr),
+    table.header(
+        table.cell(colspan: 2, [*Target Protection*])
+    ),
+    [Target accessible from the Internet], "((( (not target.data.internal) | yesno("Yes,No") )))",
+    [Access to target protected by @ip:short whitelist], "((( target.data.ip_filtering | yesno("Yes,No") )))",
+    [((( team ))) @ip:short:pl whitelisted], "((( target.data.ip_allowed | yesno("Yes,No") )))",
+    [Request input filtered by @waf:short], "((( target.data.waf_present | yesno("Yes,No") )))",
+    [((( team ))) @ip:short:pl whitelisted], "((( target.data.waf_whitelisted | yesno("Yes,No") )))",
+    [Access to target protected by authentication], "((( target.data.authentication | yesno("Yes,No") )))",
+    [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+)

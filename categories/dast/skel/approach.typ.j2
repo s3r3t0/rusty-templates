@@ -1,0 +1,22 @@
+((= Approach =))
+
+With a dynamic web
+((*- if target.data.api *)) service (@api)
+((*- else *)) application
+((*- endif *))
+test, an attack by a malicious attacker is simulated.
+In this case the target
+((*- if target.data.authentication *)) supports authentication
+    ((*- if target.data.credentials_provided *)) and the credentials were provided.
+    ((*- else *)) but the credentials were not provided.
+    ((*- endif *))
+((*- else *)) does not support authentication.
+((*- endif *))
+
+The penetration test of the ((( target.data.name ))) was performed using a combination of manual and automated testing techniques, including but not limited to:
+
+- Information gathering and reconnaissance to identify potential attack vectors and vulnerabilities in the target.
+- Automated vulnerability scanning to identify common vulnerabilities and misconfigurations in the target.
+- Manual testing to identify complex vulnerabilities that may not be detected by automated tools, such as business logic flaws, authentication bypass, and access control issues.
+- Exploitation of identified vulnerabilities to assess their impact and the potential for an attacker to compromise the target.
+- Post-exploitation activities to assess the extent of the compromise and the potential for lateral movement within the target environment.

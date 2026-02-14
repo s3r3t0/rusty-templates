@@ -1,0 +1,78 @@
++++
+name = "Persistent Cookies"
+risk = "medium"
+keywords = ["v5.0-14.3.3", "cookie", "data protection", "browser storage", "sensitive data", "persistent cookie"]
+
+[[variables]]
+name = "images"
+description = "screenshots showing the persistent cookie issue"
+required = true
+list = true
+
+[[variables]]
+name = "cookies"
+description = "List of cookie flags (attributes `name`, `lifespan`) found in the application"
+list = true
++++
+
+
+{# Reporting hint:
+    Use the https://github.com/s3r3t0/web-extension firefox extension for easy cookie inspection.
+
+    Example output:
+
+    [variables]
+    cookies = [
+        { name = "logged_in", lifespan = "10 days" },
+        { name = "user_id", lifespan = "364 days" }
+    ]
+#}
+
+
+{% extends "_base.md" %}
+
+
+{% block description -%}
+The application uses persistent cookies that remain on the user's device after the browser is closed. Persistent cookies can pose security and privacy risks if they contain sensitive information or if they are not properly secured.
+
+The following persistent cookies were found in the application:
+
+{% if f.vars.cookies is defined and f.vars.cookies | length > 0 %}
+| Name              | Expiration Time       |
+|:------------------|:----------------------|
+{% for cookie in f.vars.cookies -%}
+| {{ cookie.name }} | {{ cookie.lifespan }} |
+{% endfor %}
+{% endif %}
+
+{% for image in f.vars.images -%}
+    ![Browser developer tools showing application's cookie jar]({{image}}){width=90%}
+{% endfor %}
+
+There are two types of cookies: session cookies and persistent cookies. Session cookies are temporary and are deleted when the user closes their browser, while persistent cookies remain on the user's device until they expire or are manually deleted by the user. Persistent cookies can be used for various purposes, such as remembering user preferences, tracking user behavior, or maintaining user sessions across multiple visits to a website. However, if not properly secured, persistent cookies can be vulnerable to theft or unauthorized access, which can lead to security and privacy risks for users.
+{%- endblock description %}
+
+
+{% block likelihood -%}
+- The likelihood of this issue occurring depends on the specific implementation of the application and the sensitivity of the information stored in the persistent cookies.
+- If the persistent cookies contain sensitive information, such as authentication tokens or personally identifiable information, the likelihood of this issue being exploited by malicious actors increases significantly.
+{%- endblock likelihood %}
+
+
+{% block impact -%}
+- The impact of this issue can be significant, especially if the persistent cookies contain sensitive information. If a malicious actor gains access to the persistent cookies, they could potentially use them to impersonate the user, access their accounts, or steal their personal information.
+- Additionally, if the persistent cookies are not properly secured, they could be vulnerable to theft or unauthorized access, which can lead to security and privacy risks for users. This can result in reputational damage for the organization and potential legal consequences if user data is compromised.
+{%- endblock impact %}
+
+
+{% block recommendation -%}
+- Review the use of persistent cookies in the application and ensure that they are only used when necessary and that they do not contain sensitive information.
+- If persistent cookies are necessary, ensure that they are properly secured by using appropriate flags (e.g., `Secure`, `HttpOnly`, `SameSite`) and by implementing proper access controls to prevent unauthorized access.
+- Consider implementing a cookie management strategy that includes regular reviews of the cookies used in the application, as well as providing users with clear information about the cookies being used and options for managing their cookie preferences.
+{%- endblock recommendation %}
+
+
+{% block references -%}
+- [MDN Web Docs -- Set-Cookie header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie)
+- [OWASP ASVS](https://github.com/OWASP/ASVS/blob/v5.0.0_release/5.0/en/0x23-V14-Data-Protection.md#v143-client-side-data-protection)
+{%- endblock references %}
