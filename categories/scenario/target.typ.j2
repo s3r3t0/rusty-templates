@@ -1,0 +1,48 @@
+((* from "macros.typ.j2" import findings_table *))
+
+= ((( target.data.name )))
+<((( target.uname )))>
+
+    The ((( target.data.name ))) is a web application which #lorem(15).
+
+== Assignment
+
+    The penetration test of the ((( target.data.name ))) focused on the evaluation of the security controls implemented in the web application and the identification of potential vulnerabilities that could be exploited by an attacker to compromise the confidentiality, integrity, or availability of the systems and data involved in the web application.
+
+=== Scope
+
+    ((* include target.uname + "/scope.typ.j2" *))
+
+=== Scenario Description
+
+    ((* include target.uname + "/scenario.typ.j2" *))
+
+=== @SCENARIO:long:cap
+
+    ((* include target.uname + "/approach.typ.j2" *))
+
+== Findings
+
+    ((*- if target.findings.risks.sum_open > 0 *))
+        During the penetration test of the ((( target.data.name ))) target, the ((( team ))) team discovered ((( target.findings.risks.sum_open )))
+        ((* if target.findings.risks.sum_open > 1 -*))
+            vulnerabilities
+        ((*- else -*))
+            vulnerability
+        ((*- endif *)).
+
+        #figure(image(width: 90%, "/.build/((( target.uname )))/risks.png"))
+
+        The table below gives an overview of the vulnerabilities and the risk classification.
+
+        ((( findings_table(target, config) )))
+
+        You may find the technical description of the discovered vulnerabilities and mitigation recommendation in the following sections.
+
+        ((* for finding_group in target.findings.groups -*))
+            #pagebreak()
+            ((* include target.uname + "_" + finding_group.uname + ".typ.j2" *))
+        ((* endfor -*))
+    ((* else *))
+        During the penetration test of the ((( target.data.name ))) target, the ((( team ))) team was unable to locate any vulnerability within the scope of the assessment.
+    ((* endif -*))
