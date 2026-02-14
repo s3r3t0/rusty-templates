@@ -94,12 +94,18 @@ Patch versions are reserved for changes related to the template only.
 
 The style is inspired by the [Eisvogel] pandoc LaTeX template.
 
+If you prefer TeX over Typst, try the [TeX templates][tex] for SeReTo.
+
+The risk indicators were created with the [Gauge plot][gauge] script.
+
 > Created with support of [NN Management Services, s.r.o.][nn]
 
 [SeReTo]: https://github.com/s3r3t0/sereto
 [Eisvogel]: https://github.com/Wandmalfarbe/pandoc-latex-template
 [install]: https://sereto.s4n.cz/latest/getting_started/installation/
 [template]: https://github.com/new?template_name=rusty-templates&template_owner=s3r3t0
+[tex]: https://github.com/s3r3t0/templates
+[gauge]: https://github.com/s3r3t0/gauge-plot
 [semver]: https://semver.org
 [tags]: https://github.com/s3r3t0/rusty-templates/tags
 [license]: https://github.com/s3r3t0/rusty-templates/blob/main/LICENSE.md
