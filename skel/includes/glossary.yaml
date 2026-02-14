@@ -6,6 +6,10 @@ csrf:
   short: CSRF
   long: Cross-site Request Forgery
 
+fw:
+  short: FW
+  long: firewall
+
 http:
   short: HTTP
   long: Hypertext Transfer Protocol

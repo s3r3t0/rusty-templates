@@ -18,6 +18,7 @@
     ((* include target.uname + "/approach.typ.j2" *))
 
 == Findings
+
     ((*- if target.findings.risks.sum_open > 0 *))
         During the penetration test of the ((( target.data.name ))) target, the ((( team ))) team discovered ((( target.findings.risks.sum_open )))
         ((* if target.findings.risks.sum_open > 1 -*))

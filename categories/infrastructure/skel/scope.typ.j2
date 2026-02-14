@@ -1,0 +1,55 @@
+((= Scope =))
+
+The scope of the infrastructure penetration test was limited to the scope given below.
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+    ((* if target.data.src_ips is defined -*))
+        [((( team )))  @ip:short:pl],
+            [
+                ((*- for ip in target.data.src_ips -*))
+                    #raw( "((( ip )))" ) ((( "\\" if not loop.last )))
+                ((* endfor -*))
+            ],
+    ((*- endif *))
+)
+
+((* if target.filter_locators(["domain", "hostname", "ip"]) | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Target Hostnames / @ip:short:pl:cap]),
+        ((* for loc in target.filter_locators(["domain", "hostname", "ip"]) -*))
+            raw( "(((- loc.value -)))" ),
+        ((*- endfor *))
+    )
+((*- else -*))
+    _No hostnames or IP addresses were provided for the target._
+((*- endif *))
+
+((* if target.data.fw_present is defined or target.data.fw_whitelisted is defined or target.data.authentication is defined or target.data.credentials_provided is defined *))
+    #table(
+        columns: (3fr, 2fr),
+        table.header(
+            table.cell(colspan: 2, [*Target Protection*])
+        ),
+        ((* if target.data.fw_present is defined *))
+            [Target protected by @fw:short], "((( target.data.fw_present | yesno("Yes,No") )))",
+        ((* endif *))
+        ((* if target.data.fw_whitelisted is defined *))
+            [((( team ))) @ip:short:pl whitelisted], "((( target.data.fw_whitelisted | yesno("Yes,No") )))",
+        ((* endif *))
+        ((* if target.data.authentication is defined *))
+            [Access to target protected by authentication], "((( target.data.authentication | yesno("Yes,No") )))",
+        ((* endif *))
+        ((* if target.data.credentials_provided is defined *))
+            [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+        ((* endif *))
+    )
+((* endif *))
