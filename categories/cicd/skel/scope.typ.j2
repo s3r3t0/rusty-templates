@@ -1,0 +1,26 @@
+((= Scope =))
+
+The scope of the continuous integration pipeline evaluation was limited to the scope given below.
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+)
+
+((* if target.data.locators | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Pipelines]),
+        ((* for url in target.filter_locators("url") -*))
+            raw( "(((- url.value -)))" ),
+        ((*- endfor *))
+    )
+((*- else -*))
+    _The target has not been further specified._
+((*- endif *))
