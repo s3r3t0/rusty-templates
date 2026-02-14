@@ -1,0 +1,34 @@
+((= Scope =))
+
+The scope of the Kubernetes cluster penetration test was limited to the scope given below.
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+    ((* if target.data.src_ips is defined -*))
+        [((( team )))  @ip:short:pl],
+            [
+                ((*- for ip in target.data.src_ips -*))
+                    #raw( "((( ip )))" ) ((( "\\" if not loop.last )))
+                ((* endfor -*))
+            ],
+    ((*- endif *))
+)
+
+((* if target.data.locators | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Target Specification]),
+        ((* for loc in target.data.locators -*))
+            raw( "(((- loc.value -)))" ),
+        ((*- endfor *))
+    )
+((*- else -*))
+  _Target was not further specified._
+((*- endif *))
