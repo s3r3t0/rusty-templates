@@ -1,21 +1,26 @@
 ((* extends "_base.typ.j2" *))
 
+
 ((* block format -*))
   compact
 ((*- endblock format *))
+
 
 ((* block specification -*))
   ((( target.data.name ))) -- ((( finding_group.name )))
 ((*- endblock specification *))
 
+
 ((* block subtitle -*))
   Partial penetration test report -- ((( version )))
 ((*- endblock subtitle *))
+
 
 ((* block content *))
   #counter(heading).update(( ((( target_index + 1 ))), 2, ((( finding_group_index ))) ))
   ((* include target.uname + "_" + finding_group.uname + ".typ.j2" *))
 ((* endblock content *))
+
 
 ((* block appendix *))
   #glossary(

@@ -1,8 +1,15 @@
 ((* extends "_base.typ.j2" *))
 
+
+((* block specification -*))
+  ((( target.data.name )))
+((*- endblock specification *))
+
+
 ((* block subtitle *))
     Penetration test report -- ((( version )))
 ((* endblock subtitle *))
+
 
 ((* block content *))
   #counter(heading).update( ((( target_index ))) )
