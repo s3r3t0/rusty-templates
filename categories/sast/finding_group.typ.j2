@@ -1,0 +1,35 @@
+((* from "macros.typ.j2" import finding_details, finding_group_details *))
+
+=== (((finding_group.name)))
+< (((- target.uname -))) _ (((- finding_group.uname -))) >
+
+((( finding_group_details(
+  risk = finding_group.risk.value,
+  locators = finding_group.locators if finding_group.locators | length > 0 else [{"value": "See attached FPR and PDF files for file locations."}],
+  details = {
+    "Recommended Due Date": config.due_date(finding_group.risk, finding_group.reported_on)
+  },
+  locators_title = "Location",
+) )))
+
+((* for finding in finding_group.sub_findings *))
+  ((* if finding_group.sub_findings | length > 1 *))
+    #showybox(
+      frame: (
+        border-color: colors.risk-(((- finding.risk.value -))),
+        title-color: colors.risk-(((- finding.risk.value -))),
+        body-color: colors.background-default,
+      ),
+      title: strong("((( finding.name )))"),
+      breakable: true,
+      ((( finding_details(
+        risk = finding.risk.value,
+        locators = finding_group.subfinding_locators(finding),
+        locators_title = "Location",
+      ) ))),
+    include("/.build/((( target.uname )))/((( finding.uname ))).typ")
+    )
+  ((* else *))
+    #include("/.build/((( target.uname )))/((( finding.uname ))).typ")
+  ((* endif *))
+((* endfor *))

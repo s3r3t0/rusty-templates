@@ -1,0 +1,40 @@
+((= Scope =))
+
+The scope of the secure source code review was limited to the scope given below.
+
+#table(
+    columns: (2fr, 3fr),
+    table.header(
+        table.cell(colspan: 2, "Target Details")
+    ),
+    "Name of the target", "((( target.data.name )))",
+    ((* if target.data.id -*))
+        "Target ID", "((( target.data.id )))",
+    ((*- endif *))
+    "Source code provider", "((( target.data.code_origin )))",
+    "Source code origin", "((( target.data.code_origin_name )))",
+)
+
+((* if target.data.locators | length > 0 -*))
+    #table(
+        columns: (1fr),
+        table.header([Source Code Locations]),
+        ((* for loc in target.data.locators -*))
+            raw( "(((- loc.value -)))" ),
+        ((*- endfor *))
+        )
+((*- else -*))
+    _The source code locations were not further specified._
+((*- endif *))
+
+((* if target.data.code_integrity | length > 0 *))
+    #table(
+        columns: (2fr, 3fr),
+        table.header(
+            table.cell(colspan: 2, "Source Code Integrity (SHA-256)")
+        ),
+        ((* for name, hash in target.data.code_integrity.items() -*))
+            raw( "(((- name -)))" ), raw( "(((- hash -)))" ),
+        ((*- endfor *))
+    )
+((* endif *))

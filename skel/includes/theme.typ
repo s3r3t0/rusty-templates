@@ -29,6 +29,8 @@ low: theme.green,
 low-dimmed: theme.green-light,
 info: theme.blue,
 info-dimmed: theme.blue-light,
+closed: theme.grey,
+closed-dimmed: theme.grey-light,
 text-default: theme.grey-dark,
 text-attentional: theme.black,
 background-default: theme.white,
@@ -52,6 +54,8 @@ code-numbers: theme.grey-light,
 #colors.insert("risk-low-container", colors.low-dimmed)
 #colors.insert("risk-info", colors.info)
 #colors.insert("risk-info-container", colors.info-dimmed)
+#colors.insert("risk-closed", colors.closed)
+#colors.insert("risk-closed-container", colors.closed-dimmed)
 #colors.insert("header", colors.text-attentional)
 #colors.insert("footer", colors.text-subtle)
 #colors.insert("subheading", colors.text-attentional)
