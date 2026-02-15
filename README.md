@@ -114,7 +114,7 @@ The risk indicators were created with the [Gauge plot][gauge] script.
 [gauge]: https://github.com/s3r3t0/gauge-plot
 [semver]: https://semver.org
 [tags]: https://github.com/s3r3t0/rusty-templates/tags
-[license]: https://github.com/s3r3t0/rusty-templates/blob/main/LICENSE.md
+[license]: https://github.com/s3r3t0/rusty-templates/blob/main/LICENSE
 [Changelog]: https://github.com/s3r3t0/rusty-templates/blob/main/CHANGELOG.md
 [nn]: https://www.nn.cz/kariera/en/nn-digital-hub/
 [release]: https://github.com/s3r3t0/rusty-templates/releases/latest
