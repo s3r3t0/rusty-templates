@@ -98,8 +98,6 @@ Patch versions are reserved for changes related to the template only.
 
 ## Acknowledgements
 
-The style is inspired by the [Eisvogel] pandoc LaTeX template.
-
 If you prefer TeX over Typst, try the [TeX templates][tex] for SeReTo.
 
 The risk indicators were created with the [Gauge plot][gauge] script.
