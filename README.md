@@ -15,8 +15,10 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/s3r3t0/rusty-templates)
 ![GitHub top language](https://img.shields.io/github/languages/top/s3r3t0/rusty-templates)
 
-[![Debian package](https://img.shields.io/debian/v/pandoc?label=pandoc)][pandoc-manual]
-[![jinja2 version](https://img.shields.io/badge/jinja2-v3.1.0-blue)](https://jinja.palletsprojects.com/en/stable/)
+[![typst version](https://img.shields.io/badge/typst-v0.14.0-blue)][typst-manual]
+[![pandoc version](https://img.shields.io/badge/pandoc-v3.1.2-blue)][pandoc-manual]
+[![jinja2 version](https://img.shields.io/badge/jinja2-v3.1.0-blue)][jinja-manual]
+![python version](https://img.shields.io/badge/python-v3.12-blue)
 
 A basic Typst-based template structure for documents created with the [Security Reporting Tool (SeReTo)][SeReTo].
 
@@ -117,3 +119,5 @@ The risk indicators were created with the [Gauge plot][gauge] script.
 [nn]: https://www.nn.cz/kariera/en/nn-digital-hub/
 [release]: https://github.com/s3r3t0/rusty-templates/releases/latest
 [pandoc-manual]: https://pandoc.org/MANUAL.html
+[typst-manual]: https://typst.app/docs/
+[jinja-manual]: https://jinja.palletsprojects.com/en/stable/templates/

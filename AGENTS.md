@@ -17,7 +17,7 @@
 
 - **Typst** ≥ v0.14.0
 - **Pandoc** ≥ v3.1.2
-- **Python** ≥ 3.10 (for pandoc filters and plugins)
+- **Python** ≥ 3.12 (for pandoc filters and plugins)
 - **uv** (recommended) or pip
 
 ### Install
@@ -87,7 +87,43 @@ Prefixes (`+`, `^`) go before the tag; suffixes (`<`, `>`, `!`) go after.
 
 ## Testing & Validation
 
-There is no automated test suite in this repository. Before finishing any change:
+### Automated testing with tox
+
+The project uses **tox** to orchestrate all automated checks. Configuration lives in `tox.ini`.
+
+| tox environment | What it runs | Command |
+|-----------------|-------------|---------|
+| `py3{12,13,14}` | **pytest** unit tests in `tests/` | `python -m pytest tests` |
+| `lint` | **ruff** linter on `pandocfilters/` and `plugins/` | `ruff check pandocfilters && ruff check plugins` |
+| `type` | **mypy** type checking on `plugins/` | `mypy plugins` |
+| `format` | **ruff** import sorting + formatting on all Python dirs | `ruff check --select I --fix … && ruff format …` |
+
+Run the full suite:
+
+```sh
+tox
+```
+
+Run a single environment:
+
+```sh
+tox -e lint      # linting only
+tox -e type      # type checking only
+tox -e py312     # pytest on Python 3.12
+tox -e format    # auto-format code
+```
+
+> **CI integration:** The `[gh]` section in `tox.ini` maps Python versions to tox environments for GitHub Actions. On Python 3.12, CI runs `py312`, `type`, and `lint`.
+
+### Writing tests
+
+- Tests live in `tests/` and use **pytest**.
+- Follow the existing pattern in `tests/test_plugin_test.py` — group related tests in a class, use `click.testing.CliRunner` for CLI plugins, and `unittest.mock.patch` for isolating side effects.
+- Name test files `test_<module>.py` and test classes `Test<Subject>`.
+
+### Manual validation (templates)
+
+In addition to the automated checks, verify template changes manually before finishing:
 
 1. **Render a test report** using SeReTo to verify templates compile without errors.
 2. **Check Typst compilation:** ensure `.typ` output from Jinja2 renders without Typst errors.

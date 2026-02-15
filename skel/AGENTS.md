@@ -99,7 +99,7 @@ In Markdown findings, use standard Markdown image syntax:
 - Place image files in the `pictures/` directory.
 - The pandoc filter automatically prepends `/pictures/` to the path.
 - **Do not** include the `/pictures/` prefix in the Markdown `()` path.
-- Supported formats: PNG, JPEG, SVG.
+- Supported formats: PNG, JPEG, SVG, PDF.
 
 ### Code blocks in findings
 
