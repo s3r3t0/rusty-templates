@@ -26,7 +26,7 @@ def get_typst_attributes(attributes) -> str:
             case "fit" | "scaling":
                 result.append(f'{key}: "{value}"')
 
-    return ", ".join(result)
+    return ", ".join(result) + ", " if result else ""
 
 
 def graphics(key, value, format, _meta):
@@ -48,7 +48,7 @@ def graphics(key, value, format, _meta):
     typst_attrs = get_typst_attributes(attributes)
     alt_attr = caption_attr = ""
     if alt:
-        alt_attr = f', alt: "{stringify(alt)}"'
+        alt_attr = f'alt: "{stringify(alt)}"'
         caption_attr = f', caption: "{stringify(alt)}"'
     return [
         RawInline(
