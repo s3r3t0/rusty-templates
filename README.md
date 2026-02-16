@@ -10,15 +10,17 @@
 [![GitHub release date](https://img.shields.io/github/release-date/s3r3t0/rusty-templates)][release]
 [![GitHub last commit](https://img.shields.io/github/last-commit/s3r3t0/rusty-templates)](https://github.com/s3r3t0/rusty-templates/commit/main)
 
+[![typst version](https://img.shields.io/badge/typst-v0.14.0-blue)][typst-manual]
+[![pandoc version](https://img.shields.io/badge/pandoc-v3.1.2-blue)][pandoc-manual]
+[![jinja2 version](https://img.shields.io/badge/jinja2-v3.1.0-blue)][jinja-manual]
+![python version](https://img.shields.io/badge/python-v3.12-blue)
+
 [![Documentation](https://img.shields.io/badge/documentation-SeReTo-blue)](https://sereto.s4n.cz/)
 [![GitHub License](https://img.shields.io/github/license/s3r3t0/rusty-templates)][license]
 ![GitHub language count](https://img.shields.io/github/languages/count/s3r3t0/rusty-templates)
 ![GitHub top language](https://img.shields.io/github/languages/top/s3r3t0/rusty-templates)
 
-[![typst version](https://img.shields.io/badge/typst-v0.14.0-blue)][typst-manual]
-[![pandoc version](https://img.shields.io/badge/pandoc-v3.1.2-blue)][pandoc-manual]
-[![jinja2 version](https://img.shields.io/badge/jinja2-v3.1.0-blue)][jinja-manual]
-![python version](https://img.shields.io/badge/python-v3.12-blue)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/s3r3t0/rusty-templates/badge)](https://scorecard.dev/viewer/?uri=github.com/s3r3t0/rusty-templates)
 
 A basic Typst-based template structure for documents created with the [Security Reporting Tool (SeReTo)][SeReTo].
 
