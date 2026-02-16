@@ -63,7 +63,7 @@
 
 ((* block content *))
   ((*- for target in c.targets *))
-    = ((( target.data.name )))
+= ((( target.data.name )))
     <((( target.uname )))>
 
     == Scope
@@ -71,9 +71,6 @@
 
     == Approach
       ((* include target.uname + "/approach.typ.j2" *))
-
-    == Test Prerequisites
-      ((* include target.uname + "/prerequisites.typ.j2" *))
   ((* endfor *))
 ((* endblock content *))
 
