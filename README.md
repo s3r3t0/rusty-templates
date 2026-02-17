@@ -25,8 +25,6 @@
 
 A basic Typst-based template structure for documents created with the [Security Reporting Tool (SeReTo)][SeReTo].
 
-The style is inspired by the [Eisvogel] pandoc LaTeX template.
-
 ## Table of Contents
 
 - [Security Reporting Tool Rusty Templates](#security-reporting-tool-rusty-templates)
