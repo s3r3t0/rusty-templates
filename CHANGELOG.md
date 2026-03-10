@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Improved glossary style and formatting
+- Acronyms filter: Support alphanumeric characters, dashes, and underscores for better handling of various naming conventions.
 
 ## [0.5.1] - 2026-02-16
 
