@@ -1,6 +1,9 @@
 ((* from "macros.typ.j2" import finding_details, finding_group_details *))
 
 === (((finding_group.name)))
+((*- if finding_group.sub_findings | length == 1 and finding_group.name != finding_group.sub_findings[0].name -*))
+  : ((( finding_group.sub_findings[0].name )))
+((*- endif *))
 < (((- target.uname -))) _ (((- finding_group.uname -))) >
 
 ((( finding_group_details(

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Include subfinding name in group name for groups of 1 subfinding.
+
 ### Changed
 
 - Acronyms filter: Support alphanumeric characters, dashes, and underscores for better handling of various naming conventions.
