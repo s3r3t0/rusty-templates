@@ -11,8 +11,8 @@
     }
 
     table(
-      columns: (auto, auto, 1fr),
-      align: (left, left, right),
+      columns: (auto, 1fr),
+      align: (left, left),
       stroke: none,
       inset: (x, y) => {
         if (x == 0) {
@@ -23,12 +23,12 @@
           5pt
         }
       },
-      table.header([], [], []),
+      table.header([], []),
       ..body
     )
   },
 
   entry: (entry, index, total) => {
-    (entry.short + entry.label, entry.long, entry.pages)
+    (entry.short + entry.label, entry.long + ". " + emph(entry.pages))
   }
 )
