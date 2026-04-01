@@ -20,19 +20,19 @@
     {
     set list(marker: [], indent: 1em)
     ((*- if locators | length > 0 *))
-        strong("(((- locators_title -)))")
+        block(sticky: true, strong("(((- locators_title -)))"))
         list(
         ((* for loc in locators -*))
             list.item(raw("(((- loc.value -)))")),
         ((*- endfor *))
         )
     ((*- endif *))
-    strong("Technical Risk")
+    block(sticky: true, strong("Technical Risk"))
     list(list.item("(((- risk | capitalize -)))"))
     ((*- if details is not none *))
         ((* for key, value in details | items -*))
             ((* if value *))
-                strong("(((- key -)))")
+                block(sticky: true, strong("(((- key -)))"))
                 list(list.item("(((- value -)))"))
             ((* endif *))
         ((* endfor *))
