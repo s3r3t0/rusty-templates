@@ -1,4 +1,3 @@
-#import "@preview/showybox:2.0.4": showybox
 #import "@preview/zebraw:0.6.0": zebraw, zebraw-init
 #import "theme.typ": colors
 
@@ -345,4 +344,63 @@
   counter(heading).update(0)
 
   body
+}
+
+// Breakable box with a title that cannot be orphaned from the body content.
+// Drop-in replacement for showybox when title orphaning on page breaks is undesirable.
+#let finding-box(
+  frame: (:),
+  title: none,
+  breakable: false,
+  ..body,
+) = {
+  let border-color = frame.at("border-color", default: black)
+  let title-color = frame.at("title-color", default: black)
+  let body-color = frame.at("body-color", default: white)
+  let inset = frame.at("inset", default: (x: 1em, y: 0.65em))
+  let radius = frame.at("radius", default: 5pt)
+  let thickness = frame.at("thickness", default: 1pt)
+
+  let inset-x = if type(inset) == dictionary { inset.at("x", default: inset.at("left", default: 0pt)) } else { inset }
+
+  // Outer wrapper provides normal spacing between consecutive boxes
+  block(breakable: breakable, width: 100%,
+    // Inner block matches showybox's visual layout
+    block(
+      breakable: breakable,
+      width: 100%,
+      fill: body-color,
+      radius: radius,
+      inset: 0pt,
+      spacing: 0pt,
+      stroke: thickness + border-color,
+    )[
+      #if title != none {
+        block(
+          sticky: true,
+          fill: title-color,
+          width: 100%,
+          radius: (top-left: radius, top-right: radius, bottom: 0pt),
+          inset: inset,
+          spacing: 0pt,
+          stroke: (bottom: 1pt + border-color),
+          align(start, text(fill: white, title)),
+        )
+      }
+      #block(
+        width: 100%,
+        spacing: 0pt,
+        breakable: breakable,
+        inset: inset,
+        body.pos()
+          .map(block.with(spacing: 0pt, width: 100%, breakable: breakable))
+          .join(
+            block(
+              spacing: 0.65em,
+              align(left, line(start: (-inset-x, 0%), end: (100% + inset-x, 0%), stroke: (paint: border-color, dash: "solid", thickness: 1pt))),
+            )
+          ),
+      )
+    ]
+  )
 }
