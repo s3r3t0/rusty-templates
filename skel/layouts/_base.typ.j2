@@ -5,7 +5,7 @@
 #import "/includes/glossy/gloss.typ": init-glossary, glossary, theme-table
 #import "/includes/sereto.typ": *
 
-#show: init-glossary.with(yaml("/includes/glossary.yaml"))
+#show: init-glossary.with(yaml("/includes/glossary.yaml"), term-links: true)
 
 ((* set ns = namespace(ids=[]) -*))
 ((* for v in config.versions if v <= version -*))

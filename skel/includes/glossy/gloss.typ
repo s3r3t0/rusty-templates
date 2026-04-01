@@ -409,9 +409,9 @@
     } else {
       // normal term display (ie not hidden)
 
-      // create the forward link, if watned
+      // create the forward link, if wanted
       let linked-term = if term-links and __has_glossary_entry(key) {
-        link(label(key), term)
+        link(__entry_label(key), term)
       } else {
         term
       }
