@@ -1,6 +1,6 @@
 // ((( MANUAL_EDIT_WARNING )))
-((* set team = c.filter_people(type="author") | first | attr("business_unit") *))
-((* set company = c.filter_people(type="requestor") | first | attr("business_unit") *))
+((* set team = c.filter_people(type="author") | first | attr("business_unit") if c.filter_people(type="author") | length else "n/a" *))
+((* set company = c.filter_people(type="requestor") | first | attr("business_unit") if c.filter_people(type="requestor") | length else "n/a" *))
 
 #import "/includes/glossy/gloss.typ": init-glossary, glossary, theme-table
 #import "/includes/sereto.typ": *
@@ -89,8 +89,8 @@
               , _((( person.role )))_
             ((*- endif *))
           / E-mail: #link(" (((- person.email -))) ")
-      ((* endfor -*))
-    ((* endfor *))
+      ((*- endfor *))
+    ((*- endfor *))
 
   #glossary(
     title: "Acronyms",
