@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Render report even if no people are defined.
+- Use SoW dates in SoW template version table.
 
 ## [0.6.0] - 2026-04-02
 
