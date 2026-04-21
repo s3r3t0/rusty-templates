@@ -267,9 +267,9 @@
         align: horizon + center,
         columns: 1fr,
         rows: if format == "compact" {
-          (2fr, 1fr, 1fr, 1fr, 3fr, 1fr, 2fr, 15fr)
+          (2fr, 3fr, 2fr, 1fr, 3fr, 1fr, 2fr, 15fr)
         } else {
-          (2fr, 1fr, 1fr, 1fr, 3fr, 1fr, 2fr, 10fr)
+          (2fr, 2fr, 2fr, 1fr, 3fr, 1fr, 2fr, 10fr)
         },
         text(
           fill: colors.warning,
