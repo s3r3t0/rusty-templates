@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Target partial report now uses the compact format.
+
 ### Fixed
 
 - Render report even if no people are defined.
