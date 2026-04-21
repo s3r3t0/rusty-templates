@@ -11,6 +11,23 @@
 ((*- endblock date *))
 
 
+((*- block changelog -*))
+  ((* for v in config.versions if v <= version *))
+    ((* with c = config.at_version(v) -*))
+      (
+        version: "((( v )))",
+        ((* if show_request_id -*))
+          id: "((( c.id )))",
+        ((*- endif *))
+        date: "((( c.filter_dates("sow_sent") | last | default("n/a") )))",
+        authors: "((( c.filter_people("author") | join("; ", attribute="name") )))",
+        description: "((( c.version_description )))",
+      ),
+    ((*- endwith *))
+  ((*- endfor *))
+((*- endblock changelog -*))
+
+
 ((* block preamble *))
 = Management summary
 
