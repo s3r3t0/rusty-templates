@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added a debug template for inspecting the configuration and data structures.
+
 ### Changed
 
 - Target partial report now uses the compact format.
