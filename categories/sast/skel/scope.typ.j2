@@ -12,7 +12,9 @@ The scope of the secure source code review was limited to the scope given below.
         "Target ID", "((( target.data.id )))",
     ((*- endif *))
     "Source code provider", "((( target.data.code_origin )))",
-    "Source code origin", "((( target.data.code_origin_name )))",
+    ((* if target.data.code_origin_name -*))
+        "Source code origin", "((( target.data.code_origin_name )))",
+    ((*- endif *))
 )
 
 ((* if target.data.locators | length > 0 -*))
