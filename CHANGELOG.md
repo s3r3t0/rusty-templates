@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Target partial report now uses the compact format.
+- SAST category: Show `code_origin_name` only when non-empty.
 
 ### Fixed
 
