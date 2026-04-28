@@ -1,0 +1,106 @@
+((* extends "_base.typ.j2" *))
+
+
+((* block subtitle *))
+    Debugging Template
+((* endblock subtitle *))
+
+
+((* block content *))
+  = Jinja Debug Function
+
+  ```py
+  ((* debug *))
+  ```
+
+  = Full Config Pretty Print
+
+  ```py
+  ((( config | pprint )))
+  ```
+
+  = Version Config
+
+  == Current Version
+
+  ```py
+  ((( c | pprint )))
+  ```
+
+  ((* for v in config.versions *))
+    == Version ((( v )))
+
+    ((* with c = config.at_version(v) *))
+      ```py
+      ((( c | pprint )))
+      ```
+    ((* endwith *))
+
+  ((* endfor *))
+
+  = People
+
+  ```py
+  ((( c.people | pprint )))
+  ```
+
+  ((* for person in c.people *))
+    == Person ((( person.name )))
+
+    ```py
+    ((( person | pprint )))
+    ```
+  ((* endfor *))
+
+  = Dates
+
+  ```py
+  ((( c.dates | pprint )))
+  ```
+
+  ((* for date in c.dates *))
+    ```py
+    ((( date | pprint )))
+    ```
+  ((* endfor *))
+
+  = Targets
+
+  ```py
+  ((( c.targets | pprint )))
+  ```
+
+  ((* for target in c.targets *))
+    == Target ((( target.data.name )))
+
+    ```py
+    ((( target | pprint )))
+    ```
+  ((* endfor *))
+
+  = Findings
+
+  ((* for target in c.targets *))
+    == Target ((( target.data.name ))) findings
+
+    ```py
+    ((( target.findings | pprint )))
+    ```
+
+    ((* for finding_group in target.findings.groups *))
+      === Finding Group ((( finding_group.name )))
+
+      ```py
+      ((( finding_group | pprint )))
+      ```
+
+      ((* for subfinding in finding_group.sub_findings *))
+        ==== Subfinding ((( subfinding.name )))
+
+        ```py
+        ((( subfinding | pprint )))
+        ```
+      ((* endfor *))
+    ((* endfor *))
+  ((* endfor *))
+((* endblock content *))
