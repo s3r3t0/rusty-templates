@@ -7,19 +7,16 @@ Usage:
 
 from pathlib import Path
 
-from pandocfilters import RawInline, stringify, toJSONFilter
+import panflute as pf
+import panflute.elements
+
+# panflute 2.3.1 predates Typst support in pandoc; add it to the allowlist
+panflute.elements.RAW_FORMATS.add("typst")
 
 
-def get_typst_attributes(attributes) -> str:
-    """Get Typst attributes from pandoc Attr object.
-
-    Args:
-        attributes       pandoc Attr object
-    """
-    _id, _cls, kv = attributes
+def get_typst_attributes(attrs: dict[str, str]) -> str:
     result = []
-
-    for key, value in kv:
+    for key, value in attrs.items():
         match key:
             case "width" | "height" | "page":
                 result.append(f"{key}: {value}")
@@ -29,38 +26,32 @@ def get_typst_attributes(attributes) -> str:
     return ", ".join(result) + ", " if result else ""
 
 
-def graphics(key, value, format, _meta):
-    """Use custom figure environment in LaTeX/Typst.
+def graphics(elem: pf.Element, doc: pf.Doc) -> list[pf.RawInline] | None:
+    if not isinstance(elem, pf.Image) or doc.format != "typst":
+        return None
 
-    Args:
-        key     type of pandoc object
-        value   contents of pandoc object
-        format  target output format
-        meta    document metadata
-    """
-    if key != "Image" or format != "typst":
-        return
-
-    [attributes, alt, [url, _title]] = value
+    url = elem.url
+    attrs = elem.attributes
+    alt = pf.stringify(elem)
 
     path = Path(f"/pictures/{url}")
     image_path = path if path.suffix else path.with_suffix(".png")
-    typst_attrs = get_typst_attributes(attributes)
+    typst_attrs = get_typst_attributes(attrs)
     alt_attr = caption_attr = ""
     if alt:
-        alt_attr = f'alt: "{stringify(alt)}"'
-        caption_attr = f', caption: "{stringify(alt)}"'
+        alt_attr = f'alt: "{alt}"'
+        caption_attr = f', caption: "{alt}"'
     return [
-        RawInline(
-            format,
-            f'#figure(image("{image_path}", {typst_attrs}{alt_attr}){caption_attr})',
+        pf.RawInline(
+            text=f'#figure(image("{image_path}", {typst_attrs}{alt_attr}){caption_attr})',
+            format="typst",
         )
     ]
 
 
-def main():
+def main() -> None:
     """cli entry point"""
-    toJSONFilter(graphics)
+    pf.run_filter(graphics)
 
 
 if __name__ == "__main__":
