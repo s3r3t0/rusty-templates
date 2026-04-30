@@ -1,10 +1,11 @@
 // A tabular theme courtesy of [@Fevol](https://github.com/Fevol)
 #let theme-table = (
-  section: (title, body) => {
-    heading(level: 1, title)
+  section: (title, len, body) => {
+    if len > 0 {
+      heading(level: 1, title)
+    }
     body
   },
-
   group: (name, index, total, body) => {
     if name != "" and total > 1 {
       heading(level: 2, name)
@@ -24,11 +25,10 @@
         }
       },
       table.header([], []),
-      ..body
+      ..body,
     )
   },
-
   entry: (entry, index, total) => {
     (entry.short + entry.label, entry.long + ". " + emph(entry.pages))
-  }
+  },
 )

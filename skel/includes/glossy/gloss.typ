@@ -59,7 +59,7 @@
     longplural: entry.at("longplural", default: __pluralize(long)),
     longarticle: entry.at("longarticle", default: __determine_article(long)),
     description: entry.at("description", default: none),
-    group: entry.at("group", default: "")
+    group: entry.at("group", default: ""),
   )
 }
 
@@ -161,7 +161,7 @@
 //
 #let __is_term_ever_used(key, location: none) = {
   let c = counter(__gloss_label_prefix + key)
-  c = if location == none {c.final()} else {c.at(location)}
+  c = if location == none { c.final() } else { c.at(location) }
   c.at(0) > 0
 }
 
@@ -179,7 +179,7 @@
 //
 #let __is_term_first_used(key, location: none) = {
   let c = counter(__gloss_label_prefix + key + __gloss_first_use_counter_postfix)
-  c = if location == none {c.final()} else {c.at(location)}
+  c = if location == none { c.final() } else { c.at(location) }
   c.at(0) > 0
 }
 
@@ -233,7 +233,7 @@
   if ("a" in modifiers or "an" in modifiers) and ("pl" in modifiers) {
     panic("Cannot use 'a'/'an' and 'pl' together.")
   }
-  if ("hidden" in modifiers or "hide" in modifiers) and modifiers.len() > 1{
+  if ("hidden" in modifiers or "hide" in modifiers) and modifiers.len() > 1 {
     panic("Cannot use 'hide'/'hidden' with other modifiers.")
   }
 
@@ -296,7 +296,7 @@
   //   - If mode is "short", return the short article.
   //   - If mode is "long" or "both", return the long article.
   // The calling logic ensures that when mode = "long" or "both", a long form exists.
-  let get_article = (mode) => {
+  let get_article = mode => {
     let wants_article = "a" in modifiers or "an" in modifiers
     if not wants_article {
       ""
@@ -446,7 +446,8 @@
 //
 #let __create_backlinks(key) = {
   return context query(__term_label(key)) // find all reference
-    .map(meta => { // extract location and page number (or symbol)
+    .map(meta => {
+      // extract location and page number (or symbol)
       let loc = meta.location()
       let page = numbering(__default(loc.page-numbering(), "1"), ..counter(page).at(loc))
       (loc, page)
@@ -474,14 +475,14 @@
 //   string: The formatted term based on the specified mode.
 //
 #let __default-format-term(mode, short-form, long-form) = {
-    if mode == "short" {
-      short-form
-    } else if mode == "long" {
-      long-form
-    } else {
-      // mode assumed to be "both"
-      long-form + " (" + short-form + ")"
-    }
+  if mode == "short" {
+    short-form
+  } else if mode == "long" {
+    long-form
+  } else {
+    // mode assumed to be "both"
+    long-form + " (" + short-form + ")"
+  }
 }
 
 // Styles a term to control its display in a document.
@@ -525,7 +526,7 @@
   format-term: __default-format-term,
   show-term: __default-show-term,
   term-links: false,
-  body
+  body,
 ) = context {
   // Type checking
   let checked-entries = (:)
@@ -556,7 +557,12 @@
     //  - That "key" does not correspond to an actual entry,
     //  - There is at least one modifier,
     //  - The first modifier corresponds to an existing entry key.
-    let can_swap = (lower(raw_key) == "a" or lower(raw_key) == "an") and not __has_entry(raw_key) and raw_modifiers.len() > 0 and __has_entry(raw_modifiers.first())
+    let can_swap = (
+      (lower(raw_key) == "a" or lower(raw_key) == "an")
+        and not __has_entry(raw_key)
+        and raw_modifiers.len() > 0
+        and __has_entry(raw_modifiers.first())
+    )
 
     // If we can swap, use the first modifier as the key and insert "a" as the first modifier.
     let (key, modifiers) = if can_swap {
@@ -568,7 +574,14 @@
     // Now see if this is an actual glossary term key
     if __has_entry(key) {
       // Found in dictionary, render via __gls()
-      __gls(key, modifiers: modifiers.map(lower), format-term: format-term, show-term: show-term, term-links: term-links, display-text: supplement)
+      __gls(
+        key,
+        modifiers: modifiers.map(lower),
+        format-term: format-term,
+        show-term: show-term,
+        term-links: term-links,
+        display-text: supplement,
+      )
     } else {
       // Not one of ours, so just pass it through
       r
@@ -672,7 +685,7 @@
           long: entry.at("long"),
           description: entry.at("description"),
           label: [#metadata(key)#__entry_label(key)],
-          pages: __create_backlinks(key)
+          pages: __create_backlinks(key),
         ))
       }
     }
@@ -706,6 +719,7 @@
     #metadata("glossary")<glossary>
     #(checked-theme.section)(
       title,
+      output.len(),
       for (group, entries) in output {
         (checked-theme.group)(
           group,
@@ -713,10 +727,10 @@
           output.len(),
           for (i, entry) in entries.enumerate() {
             (checked-theme.entry)(entry, i, entries.len())
-          }
+          },
         )
         group_index += 1
-      }
+      },
     )
   ]
 }
