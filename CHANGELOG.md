@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a debug template for inspecting the configuration and data structures.
+- Added TEST category and finding templates for testing and debugging purposes.
 
 ### Changed
 
