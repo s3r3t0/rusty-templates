@@ -208,6 +208,9 @@
     radius: 5pt,
   )
 
+  // Allow tables to break across pages. This is required because Pandoc tables are enclosed in figures, which are non-breakable by default.
+  show figure.where(kind: table): set block(breakable: true)
+
   set table(stroke: (x, y) => (
     x: none,
     bottom: if y > 0 { .75pt + colors.table-row } else { 2pt + colors.table-header },
