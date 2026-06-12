@@ -10,11 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added a debug template for inspecting the configuration and data structures.
+- Added TEST category and finding templates for testing and debugging purposes.
 
 ### Changed
 
 - Target partial report now uses the compact format.
 - SAST category: Show `code_origin_name` only when non-empty.
+- Renamed example finding "Test Finding" to "Example Finding" to properly reflect its purpose as syntax reference.
+- Make tables breakable.
 
 ### Fixed
 
@@ -22,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use SoW dates in SoW template version table.
 - Added more space for test name on the title page.
 - Do not show "Acronyms" section if there are no acronyms defined.
+- Allow breaking of long words in code snippets and identifiers to prevent overflow issues in the report.
 
 ## [0.6.0] - 2026-04-02
 
