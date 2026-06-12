@@ -76,8 +76,7 @@
     grid(
       columns: (1fr, 1fr),
       align: (left, horizon + right),
-      image(logo, height: 16mm),
-      strong(author)
+      image(logo, height: 16mm), strong(author),
     )
   }
 
@@ -90,8 +89,7 @@
     grid(
       columns: (1fr, 1fr),
       align: (left, right),
-      text(colors.warning)[*CONFIDENTIAL*],
-      counter(page).display(),
+      text(colors.warning)[*CONFIDENTIAL*], counter(page).display(),
     )
   }
 
@@ -142,24 +140,24 @@
       above: document-settings.above,
       below: document-settings.below,
       link(
-      it.element.location(),
-      it.indented(it.prefix(), it.inner())
-      )
+        it.element.location(),
+        it.indented(it.prefix(), it.inner()),
+      ),
     )
-    } else if it.level in (2, 3) {
-      set text(
-        font: font-family.subheading,
-        fill: colors.text-default,
-      )
-      block(
-        above: document-settings.spacing,
-        below: document-settings.leading,
-        link(
-          it.element.location(),
-          it.indented(it.prefix(), it.inner())
-        )
-      )
-    }
+  } else if it.level in (2, 3) {
+    set text(
+      font: font-family.subheading,
+      fill: colors.text-default,
+    )
+    block(
+      above: document-settings.spacing,
+      below: document-settings.leading,
+      link(
+        it.element.location(),
+        it.indented(it.prefix(), it.inner()),
+      ),
+    )
+  }
 
   show heading: it => block(above: document-settings.above, below: document-settings.below)[
     #set text(font: font-family.heading)
@@ -207,6 +205,23 @@
     hanging-indent: true,
     radius: 5pt,
   )
+
+  // Insert zero-width spaces into long words and around delimiters to allow for better line breaking in code snippets and identifiers.
+  show raw: it => {
+    let long-word-threshold = 16
+    let chunk-size = 4
+
+    show regex("[a-zA-Z0-9]+"): it => {
+      let code = it.text.replace(regex("[A-Z]+"), match => sym.zws + match.text)
+      code = code.replace(regex("[A-Za-z0-9]+"), match => if match.text.len() > long-word-threshold {
+        sym.zws + match.text.codepoints().chunks(chunk-size).map(codepoints => codepoints.join()).join(sym.zws)
+      } else {
+        sym.zws + match.text
+      })
+      code
+    }
+    it
+  }
 
   // Allow tables to break across pages. This is required because Pandoc tables are enclosed in figures, which are non-breakable by default.
   show figure.where(kind: table): set block(breakable: true)
@@ -297,7 +312,7 @@
           )
           grid.cell(
             align: left + bottom,
-            version-control(changelog)
+            version-control(changelog),
           )
         }
       )
@@ -367,7 +382,9 @@
   let inset-x = if type(inset) == dictionary { inset.at("x", default: inset.at("left", default: 0pt)) } else { inset }
 
   // Outer wrapper provides normal spacing between consecutive boxes
-  block(breakable: breakable, width: 100%,
+  block(
+    breakable: breakable,
+    width: 100%,
     // Inner block matches showybox's visual layout
     block(
       breakable: breakable,
@@ -395,15 +412,20 @@
         spacing: 0pt,
         breakable: breakable,
         inset: inset,
-        body.pos()
+        body
+          .pos()
           .map(block.with(spacing: 0pt, width: 100%, breakable: breakable))
           .join(
             block(
               spacing: 0.65em,
-              align(left, line(start: (-inset-x, 0%), end: (100% + inset-x, 0%), stroke: (paint: border-color, dash: "solid", thickness: 1pt))),
-            )
+              align(left, line(start: (-inset-x, 0%), end: (100% + inset-x, 0%), stroke: (
+                paint: border-color,
+                dash: "solid",
+                thickness: 1pt,
+              ))),
+            ),
           ),
       )
-    ]
+    ],
   )
 }
