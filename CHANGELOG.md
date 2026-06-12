@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Target partial report now uses the compact format.
 - SAST category: Show `code_origin_name` only when non-empty.
+- Renamed example finding "Test Finding" to "Example Finding" to properly reflect its purpose as syntax reference.
 
 ### Fixed
 
