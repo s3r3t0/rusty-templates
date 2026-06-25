@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added support `documents` field in scope to allow for multiple documents to be listed in the report.
 - DAST category: Added support for `exposure` field in scope.
+- DAST category: Added support for `api` related setup.
+
+### Removed
+
+- DAST category: Removed support for `clickpath` and `api` fields in scope. Use `documents` field instead.
 
 ## [0.7.0] - 2026-06-12
 
