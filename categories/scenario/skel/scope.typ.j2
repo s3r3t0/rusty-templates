@@ -47,3 +47,15 @@ The scope of the scenario-based test was limited to the scope given below.
         ((* endif *))
     )
 ((* endif *))
+
+((* if target.data.documents | length > 0 -*))
+The following supporting documents were provided:
+  ((* for doc in target.data.documents *))
+    - ` (((- doc.value -))) `
+      ((* if doc.description -*))
+        (((- doc.description -)))
+      ((*- else -*))
+        (((- doc.type | lower ))) document
+      ((*- endif *))
+  ((* endfor *))
+((*- endif *))
