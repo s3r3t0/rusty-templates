@@ -59,7 +59,11 @@
     table.header(
         table.cell(colspan: 2, [*Target Protection*])
     ),
+    ((*- if target.data.internal is defined -*))
     [Target accessible from the Internet], "((( (not target.data.internal) | yesno("Yes,No") )))",
+    ((*- elif target.data.exposure is defined -*))
+        [Target exposure to the Internet], "((( target.data.exposure | capitalize )))",
+    ((*- endif *))
     [Access to target protected by @ip:short whitelist], "((( target.data.ip_filtering | yesno("Yes,No") )))",
     [((( team ))) @ip:short:pl whitelisted], "((( target.data.ip_allowed | yesno("Yes,No") )))",
     [Request input filtered by @waf:short], "((( target.data.waf_present | yesno("Yes,No") )))",
