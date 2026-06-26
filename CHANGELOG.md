@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DAST category: Added support for `exposure` field in scope.
 - DAST category: Added support for `api` related setup.
 
+### Changed
+
+- Finding groups now use the new `suggested_name` property instead of the custom logic to determine the name of the group.
+
 ### Removed
 
 - DAST category: Removed support for `clickpath` and `api` fields in scope. Use `documents` field instead.
