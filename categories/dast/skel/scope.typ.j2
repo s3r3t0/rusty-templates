@@ -1,13 +1,15 @@
 ((= Scope =))
 
-((* if target.data.api or target.data.clickpath -*))
+((* if target.data.documents | length > 0 -*))
     The scope of the penetration test was described in:
-    ((* if target.data.clickpath -*))
-        - ` (((- target.data.clickpath -))) ` document
-    ((*- endif *))
-    ((* if target.data.api -*))
-        - ` (((- target.data.api -))) ` api collection
-    ((*- endif *))
+    ((* for doc in target.data.documents *))
+        - ` (((- doc.value -))) `
+            ((* if doc.description -*))
+                (((- doc.description -)))
+            ((*- else -*))
+                (((- doc.type | lower ))) document
+            ((*- endif *))
+    ((* endfor *))
 ((* else -*))
     The scope of the penetration test was limited to the scope given below.
 ((*- endif *))
@@ -59,7 +61,11 @@
     table.header(
         table.cell(colspan: 2, [*Target Protection*])
     ),
+    ((* if target.data.internal is defined -*))
     [Target accessible from the Internet], "((( (not target.data.internal) | yesno("Yes,No") )))",
+    ((* elif target.data.exposure is defined *))
+        [Target exposure to the Internet], "((( target.data.exposure | capitalize )))",
+    ((*- endif *))
     [Access to target protected by @ip:short whitelist], "((( target.data.ip_filtering | yesno("Yes,No") )))",
     [((( team ))) @ip:short:pl whitelisted], "((( target.data.ip_allowed | yesno("Yes,No") )))",
     [Request input filtered by @waf:short], "((( target.data.waf_present | yesno("Yes,No") )))",

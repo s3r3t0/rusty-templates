@@ -5,10 +5,7 @@
     ((* for finding_group in target.findings.groups -*))
       [((( loop.index )))],
       [#link(< (((- target.uname -))) _ (((- finding_group.uname -))) >)[
-        ((( finding_group.name )))
-        ((*- if finding_group.sub_findings | length == 1 and finding_group.name != finding_group.sub_findings[0].name -*))
-            : ((( finding_group.sub_findings[0].name )))
-        ((*- endif -*))
+        (((- finding_group.suggested_name -)))
       ]],
       [((( finding_group.risk | capitalize )))],
       [((( config.due_date(finding_group.risk, finding_group.reported_on) | default('', true) )))],
