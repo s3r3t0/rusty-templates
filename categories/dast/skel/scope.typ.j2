@@ -67,9 +67,15 @@
         [Target exposure to the Internet], "((( target.data.exposure | capitalize )))",
     ((*- endif *))
     [Access to target protected by @ip:short whitelist], "((( target.data.ip_filtering | yesno("Yes,No") )))",
-    [((( team ))) @ip:short:pl whitelisted], "((( target.data.ip_allowed | yesno("Yes,No") )))",
+    ((*- if target.data.ip_filtering -*))
+        [((( team ))) @ip:short:pl allowed to access target], "((( target.data.ip_allowed | yesno("Yes,No") )))",
+    ((*- endif *))
     [Request input filtered by @waf:short], "((( target.data.waf_present | yesno("Yes,No") )))",
-    [((( team ))) @ip:short:pl whitelisted], "((( target.data.waf_whitelisted | yesno("Yes,No") )))",
+    ((*- if target.data.waf_present -*))
+        [((( team ))) @ip:short:pl allowed to bypass @waf:short filters], "((( target.data.waf_whitelisted | yesno("Yes,No") )))",
+    ((*- endif *))
     [Access to target protected by authentication], "((( target.data.authentication | yesno("Yes,No") )))",
-    [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+    ((*- if target.data.authentication -*))
+        [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+    ((*- endif *))
 )

@@ -41,15 +41,15 @@ The scope of the infrastructure penetration test was limited to the scope given 
         ),
         ((* if target.data.fw_present is defined *))
             [Target protected by @fw:short], "((( target.data.fw_present | yesno("Yes,No") )))",
-        ((* endif *))
-        ((* if target.data.fw_whitelisted is defined *))
-            [((( team ))) @ip:short:pl whitelisted], "((( target.data.fw_whitelisted | yesno("Yes,No") )))",
+            ((* if target.data.fw_present and target.data.fw_whitelisted is defined *))
+                [((( team ))) @ip:short:pl whitelisted], "((( target.data.fw_whitelisted | yesno("Yes,No") )))",
+            ((* endif *))
         ((* endif *))
         ((* if target.data.authentication is defined *))
             [Access to target protected by authentication], "((( target.data.authentication | yesno("Yes,No") )))",
-        ((* endif *))
-        ((* if target.data.credentials_provided is defined *))
-            [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+            ((* if target.data.authentication and target.data.credentials_provided is defined *))
+                [Credentials provided], "((( target.data.credentials_provided | yesno("Yes,No") )))",
+            ((* endif *))
         ((* endif *))
     )
 ((* endif *))
