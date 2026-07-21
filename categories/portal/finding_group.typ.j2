@@ -7,7 +7,7 @@
   risk = finding_group.risk.value,
   locators = finding_group.locators,
   details = {
-    "Recommended Due Date": config.due_date(finding_group.risk, finding_group.reported_on)
+    "Recommended Due Date": config.due_date(finding_group.risk, reported_on=finding_group.reported_on)
   },
   locators_title = "Subscription ID",
 ) )))
