@@ -7,7 +7,7 @@
   risk = finding_group.risk.value,
   locators = finding_group.locators if finding_group.locators | length > 0 else [{"value": "See attached FPR and PDF files for file locations."}],
   details = {
-    "Recommended Due Date": config.due_date(finding_group.risk, finding_group.reported_on)
+    "Recommended Due Date": config.due_date(finding_group.risk, reported_on=finding_group.reported_on)
   },
   locators_title = "Location",
 ) )))
