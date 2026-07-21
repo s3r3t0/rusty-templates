@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Finding groups now use the new `suggested_name` property instead of the custom logic to determine the name of the group.
+- Due date calculation now takes into account the `exposure` field in scope for DAST category.
 
 ### Removed
 

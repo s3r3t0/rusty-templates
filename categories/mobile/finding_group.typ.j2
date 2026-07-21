@@ -8,7 +8,7 @@
   locators = finding_group.filter_locators(["domain", "file", "hostname", "ip", "url"]),
   details = {
     "Platform": finding_group.filter_locators("platform") | map(attribute="value") | join(", "),
-    "Recommended Due Date": config.due_date(finding_group.risk, finding_group.reported_on)
+    "Recommended Due Date": config.due_date(finding_group.risk, reported_on=finding_group.reported_on)
   },
   locators_title = "Location",
 ) )))
