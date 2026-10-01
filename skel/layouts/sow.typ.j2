@@ -81,6 +81,7 @@
 
 ((* block content *))
   ((*- for target in c.targets *))
+    ((* set api = target.filter_documents("api") | length > 0 *))
 = ((( target.data.name )))
     <((( target.uname )))>
 
