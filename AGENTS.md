@@ -27,10 +27,22 @@
 uv tool install sereto@latest --with-requirements requirements.txt
 ```
 
+### Development tooling
+
+The repository uses `uv.lock` to pin the tox toolchain used in CI and local checks.
+
+```sh
+# Run the full tox suite through the pinned uv toolchain
+uv run --group tox tox
+
+# Run a single tox environment
+uv run --group tox tox -e lint
+```
+
 ### Repo Map (quick reference)
 
 | Path | Purpose |
-|------|---------|
+| ------ | --------- |
 | `skel/layouts/*.typ.j2` | Jinja2/Typst page layouts (report, target, finding_group, sow) |
 | `skel/includes/sereto.typ` | Core Typst show rules, page setup, helper functions |
 | `skel/includes/theme.typ` | Colour palette and semantic colour aliases |
@@ -51,7 +63,7 @@ uv tool install sereto@latest --with-requirements requirements.txt
 ### Two Jinja2 dialects
 
 | File type | Delimiters | Example |
-|-----------|-----------|---------|
+| ----------- | ----------- | --------- |
 | **Typst templates** (`.typ.j2`) | `((* block *))` / `((( expr )))` / `((= comment =))` | `((( target.data.name )))` |
 | **Markdown findings** (`.md.j2`) | `{% block %}` / `{{ expr }}` / `{# comment #}` | `{{ f.vars.images }}` |
 
@@ -69,7 +81,7 @@ uv tool install sereto@latest --with-requirements requirements.txt
 Use `[!tag]` where `tag` matches a key in `skel/includes/glossary.yaml`.
 
 | Syntax | Meaning |
-|--------|---------|
+| -------- | --------- |
 | `[!api]` | default form |
 | `[!api<]` | short form |
 | `[!api>]` | long form |
@@ -92,7 +104,7 @@ Prefixes (`+`, `^`) go before the tag; suffixes (`<`, `>`, `!`) go after.
 The project uses **tox** to orchestrate all automated checks. Configuration lives in `tox.ini`.
 
 | tox environment | What it runs | Command |
-|-----------------|-------------|---------|
+| ----------------- | ------------- | --------- |
 | `py3{12,13,14}` | **pytest** unit tests in `tests/` | `python -m pytest tests` |
 | `lint` | **ruff** linter on `pandocfilters/` and `plugins/` | `ruff check pandocfilters && ruff check plugins` |
 | `type` | **mypy** type checking on `plugins/` | `mypy plugins` |
@@ -101,16 +113,16 @@ The project uses **tox** to orchestrate all automated checks. Configuration live
 Run the full suite:
 
 ```sh
-tox
+uv run --group tox tox
 ```
 
 Run a single environment:
 
 ```sh
-tox -e lint      # linting only
-tox -e type      # type checking only
-tox -e py312     # pytest on Python 3.12
-tox -e format    # auto-format code
+uv run --group tox tox -e lint      # linting only
+uv run --group tox tox -e type      # type checking only
+uv run --group tox tox -e py312     # pytest on Python 3.12
+uv run --group tox tox -e format    # auto-format code
 ```
 
 > **CI integration:** The `[gh]` section in `tox.ini` maps Python versions to tox environments for GitHub Actions. On Python 3.12, CI runs `py312`, `type`, and `lint`.
@@ -129,9 +141,11 @@ In addition to the automated checks, verify template changes manually before fin
 2. **Check Typst compilation:** ensure `.typ` output from Jinja2 renders without Typst errors.
 3. **Validate TOML frontmatter** in any new/edited findings (well-formed `+++` blocks).
 4. **Run pandoc filters manually** if you changed them:
+
    ```sh
    echo '{"pandoc-api-version":[1,23,1],"meta":{},"blocks":[]}' | python pandocfilters/acronyms.py typst
    ```
+
 5. **Check glossary.yaml** if you added new acronyms — keys must be lowercase, `short` and `long` are required.
 
 ## Coding Conventions & Architecture
@@ -146,6 +160,7 @@ In addition to the automated checks, verify template changes manually before fin
 ### Category structure
 
 Every category under `categories/` should contain:
+
 - `target.typ.j2` — main target chapter (extends macros, includes scope/approach/findings)
 - `finding_group.typ.j2` — finding-group detail rendering
 - `findings/` — reusable finding templates
