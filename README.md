@@ -78,6 +78,12 @@ uv tool install sereto@latest --with-requirements requirements.txt
 
 See [`AGENTS.md`](AGENTS.md) for development guidelines, template conventions, and instructions for coding agents.
 
+Development checks use a pinned `uv.lock` tox toolchain:
+
+```bash
+uv run --group tox tox
+```
+
 ## Versioning
 
 We use [Semantic Versioning][semver] for versioning. For the versions available, see the [tags on this repository][tags] or the full [Changelog].
@@ -106,7 +112,6 @@ The risk indicators were created with the [Gauge plot][gauge] script.
 > Created with support of [NN Management Services, s.r.o.][nn]
 
 [SeReTo]: https://github.com/s3r3t0/sereto
-[Eisvogel]: https://github.com/Wandmalfarbe/pandoc-latex-template
 [install]: https://sereto.s4n.cz/latest/getting_started/installation/
 [template]: https://github.com/new?template_name=rusty-templates&template_owner=s3r3t0
 [tex]: https://github.com/s3r3t0/templates

@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - DAST category: Show target protection bypass questions only when the protections are in place.
 - INFRA category: Show target protection bypass questions only when the protections are in place.
 - Due date calculation now takes into account the `exposure` field in scope for DAST category.
+- Development tooling now uses a pinned `uv.lock` tox toolchain in CI and Dependabot instead of the pip-compiled `requirements-tox.txt` flow.
 
 ### Removed
 
