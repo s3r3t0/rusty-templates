@@ -4,7 +4,7 @@ version = "0.0.0"
 requires-python = ">=3.12"
 
 [dependency-groups]
-tox = ["tox~=4.64.6", "tox-gh~=1.8.0"]
+tox = ["tox~=4.64.9", "tox-gh~=1.8.0"]
 
 [tool.uv]
 package = false
