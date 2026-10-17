@@ -84,6 +84,16 @@ Development checks use a pinned `uv.lock` tox toolchain:
 uv run --group tox tox
 ```
 
+## Release
+
+The release flow is split into two GitHub Actions workflows. Use the manual **Prepare Release** workflow and choose a `patch`, `minor`, or `major` bump. That workflow bumps the version in `pyproject.toml`, opens the release PR, and updates the changelog. After that PR is merged, the **Release** workflow validates the merged `pyproject.toml` version, creates the GitHub release, and attaches the example SoW and report PDFs.
+
+To generate the same example PDFs locally, run:
+
+```bash
+bash release.sh --version v0.9.0 --output-dir ./dist/example-pdfs
+```
+
 ## Versioning
 
 We use [Semantic Versioning][semver] for versioning. For the versions available, see the [tags on this repository][tags] or the full [Changelog].
