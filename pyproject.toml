@@ -7,7 +7,7 @@ requires-python = ">=3.12"
 test = ["pytest~=9.1.1"]
 lint = ["ruff~=0.17.1"]
 type = ["mypy~=2.4.0"]
-tox = ["tox~=4.66.0", "tox-gh~=1.8.0"]
+tox = ["tox~=4.66.0", "tox-gh~=1.9.0"]
 
 [tool.uv]
 package = false
