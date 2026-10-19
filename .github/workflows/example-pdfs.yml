@@ -1,0 +1,52 @@
+name: Example PDFs
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: Release version to stamp into the generated files
+        required: true
+        type: string
+      artifact-prefix:
+        description: Prefix for the uploaded artifact name
+        required: false
+        default: example-pdfs
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version to stamp into the generated files
+        required: true
+        type: string
+      artifact-prefix:
+        description: Prefix for the uploaded artifact name
+        required: false
+        default: example-pdfs
+        type: string
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  build:
+    name: Build example PDFs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          version: "latest-known"
+
+      - name: Generate example PDFs
+        run: bash release.sh --version "${{ inputs.version }}" --output-dir "$RUNNER_TEMP/example-pdfs"
+
+      - name: Upload example PDFs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ${{ inputs['artifact-prefix'] }}-${{ inputs.version }}
+          path: ${{ runner.temp }}/example-pdfs/

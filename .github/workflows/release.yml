@@ -1,0 +1,147 @@
+name: Release
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  resolve:
+    name: Resolve release version
+    runs-on: ubuntu-latest
+    if: >-
+      github.event.pull_request.merged == true &&
+      startsWith(github.event.pull_request.head.ref, 'release/v')
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+
+    steps:
+      - name: Checkout merged release commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 1
+
+      - name: Resolve version
+        id: resolve
+        env:
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          BRANCH_VERSION="${BRANCH#release/}"
+          if [[ ! "$BRANCH_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid release branch '$BRANCH'. Expected release/vX.Y.Z"
+            exit 1
+          fi
+
+          PYPROJECT_VERSION=$(grep -oP '^version = "\K[^"]+' pyproject.toml)
+          if [[ ! "$PYPROJECT_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid version '$PYPROJECT_VERSION' in pyproject.toml. Expected X.Y.Z"
+            exit 1
+          fi
+
+          VERSION="v$PYPROJECT_VERSION"
+          if [[ "$VERSION" != "$BRANCH_VERSION" ]]; then
+            echo "::error::Release branch version '$BRANCH_VERSION' does not match pyproject.toml version '$VERSION'"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+  example-pdfs:
+    name: Build example PDFs
+    needs:
+      - resolve
+    uses: ./.github/workflows/example-pdfs.yml
+    with:
+      version: ${{ needs.resolve.outputs.version }}
+      artifact-prefix: release-example-pdfs
+
+  publish:
+    name: Publish GitHub release
+    needs:
+      - resolve
+      - example-pdfs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+
+      - name: Download example PDFs
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-example-pdfs-${{ needs.resolve.outputs.version }}
+          path: dist/
+
+      - name: Create tag
+        env:
+          TAG: ${{ needs.resolve.outputs.version }}
+          SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git rev-parse --verify "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists"
+          else
+            git tag "$TAG" "$SHA"
+            git push origin "$TAG"
+          fi
+
+      - name: Prepare release notes
+        env:
+          VERSION: ${{ needs.resolve.outputs.version }}
+        run: |
+          VERSION_LABEL="${VERSION#v}"
+
+          awk -v version_label="$VERSION_LABEL" '
+            $0 ~ "^## \\[" version_label "\\]" {
+              capture = 1
+              next
+            }
+            capture && /^## \[/ {
+              exit
+            }
+            capture {
+              lines[++count] = $0
+            }
+            END {
+              if (!capture) {
+                exit 1
+              }
+
+              start = 1
+              while (start <= count && lines[start] == "") {
+                start++
+              }
+
+              end = count
+              while (end >= start && lines[end] == "") {
+                end--
+              }
+
+              for (i = start; i <= end; i++) {
+                print lines[i]
+              }
+            }
+          ' CHANGELOG.md > /tmp/release-notes.md
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.resolve.outputs.version }}
+        run: |
+          gh release create "$TAG" dist/*.pdf \
+            --repo '${{ github.repository }}' \
+            --verify-tag \
+            --title "$TAG" \
+            --notes-file /tmp/release-notes.md

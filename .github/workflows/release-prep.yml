@@ -1,0 +1,157 @@
+name: Prepare Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: Version bump type
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  prepare:
+    name: Prepare release PR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Compute new version
+        id: version
+        env:
+          BUMP_TYPE: ${{ inputs.bump_type }}
+        run: |
+          CURRENT=$(grep -oP '^version = "\K[^"]+' pyproject.toml)
+          if [[ ! "$CURRENT" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid version '$CURRENT' in pyproject.toml. Expected X.Y.Z"
+            exit 1
+          fi
+
+          echo "current=$CURRENT" >> "$GITHUB_OUTPUT"
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+          case "$BUMP_TYPE" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+            *)
+              echo "::error::Unsupported bump type: $BUMP_TYPE"
+              exit 1
+              ;;
+          esac
+
+          NEW="${MAJOR}.${MINOR}.${PATCH}"
+          echo "new=$NEW" >> "$GITHUB_OUTPUT"
+          echo "version=v$NEW" >> "$GITHUB_OUTPUT"
+          echo "Bumping version: $CURRENT -> $NEW ($BUMP_TYPE)"
+
+      - name: Update version files
+        env:
+          CURRENT_VERSION: ${{ steps.version.outputs.current }}
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          sed -i "s/^version = \"$CURRENT_VERSION\"$/version = \"$NEW_VERSION\"/" pyproject.toml
+          sed -i "/^name = \"rusty-templates\"$/{n;s/^version = \"$CURRENT_VERSION\"$/version = \"$NEW_VERSION\"/;}" uv.lock
+
+          grep -q "^version = \"$NEW_VERSION\"$" pyproject.toml || {
+            echo "::error::Failed to update pyproject.toml version"
+            exit 1
+          }
+
+          awk -v version="$NEW_VERSION" '
+            $0 == "name = \"rusty-templates\"" {
+              found = 1
+              getline
+              exit $0 == "version = \"" version "\"" ? 0 : 1
+            }
+            END {
+              if (!found) {
+                exit 1
+              }
+            }
+          ' uv.lock || {
+            echo "::error::Failed to update uv.lock version"
+            exit 1
+          }
+
+      - name: Create release branch
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "release/${VERSION}"
+
+      - name: Update changelog
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          CURRENT_VERSION: ${{ steps.version.outputs.current }}
+          NEW_VERSION: ${{ steps.version.outputs.new }}
+        run: |
+          TODAY=$(date -u +%F)
+
+          sed -i "s/^## \[Unreleased\]$/## [Unreleased]\n\n## [$NEW_VERSION] - $TODAY/" CHANGELOG.md
+          sed -i "s|^\[Unreleased\]: https://github.com/s3r3t0/rusty-templates/compare/v${CURRENT_VERSION}\.\.\.HEAD$|[Unreleased]: https://github.com/s3r3t0/rusty-templates/compare/v${NEW_VERSION}...HEAD|" CHANGELOG.md
+          sed -i "/^\[Unreleased\]: /a [$NEW_VERSION]: https://github.com/s3r3t0/rusty-templates/releases/tag/v${NEW_VERSION}" CHANGELOG.md
+
+          grep -q "^## \[$NEW_VERSION\] - $TODAY$" CHANGELOG.md || {
+            echo "::error::Failed to insert release heading into CHANGELOG.md"
+            exit 1
+          }
+
+          grep -q "^\[Unreleased\]: https://github.com/s3r3t0/rusty-templates/compare/v${NEW_VERSION}...HEAD$" CHANGELOG.md || {
+            echo "::error::Failed to update [Unreleased] comparison link"
+            exit 1
+          }
+
+          grep -q "^\[$NEW_VERSION\]: https://github.com/s3r3t0/rusty-templates/releases/tag/v${NEW_VERSION}$" CHANGELOG.md || {
+            echo "::error::Failed to insert release link for $NEW_VERSION"
+            exit 1
+          }
+
+      - name: Commit release prep changes
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git add CHANGELOG.md pyproject.toml uv.lock
+          git commit -m "chore(release): prepare ${VERSION}"
+          git push --set-upstream origin "release/${VERSION}"
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cat <<EOF >/tmp/release-pr-body.md
+          This PR prepares the release for ${VERSION}.
+
+          - Bumped the project version in pyproject.toml to ${VERSION#v}.
+          - Updated the changelog with the release notes for ${VERSION}.
+          - Merge this PR to trigger the release workflow and publish the GitHub release.
+          EOF
+
+          gh pr create \
+            --base main \
+            --head "release/${VERSION}" \
+            --title "Release ${VERSION}" \
+            --body-file /tmp/release-pr-body.md
