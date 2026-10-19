@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Ensure example PDF CI builds seed SeReTo settings non-interactively in an isolated config directory so ambient user-profile settings do not affect the build or trigger the interactive initial setup flow.
+
 ## [0.9.0] - 2026-10-19
 
 ### Changed
