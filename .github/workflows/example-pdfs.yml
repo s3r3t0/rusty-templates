@@ -32,6 +32,10 @@ jobs:
   build:
     name: Build example PDFs
     runs-on: ubuntu-latest
+    env:
+      SERETO_PROJECTS_PATH: ${{ runner.temp }}/sereto-projects
+      SERETO_TEMPLATES_PATH: ${{ github.workspace }}
+      XDG_CONFIG_HOME: ${{ runner.temp }}/xdg-config
 
     steps:
       - name: Checkout repository
@@ -43,7 +47,9 @@ jobs:
           version: "latest-known"
 
       - name: Generate example PDFs
-        run: bash release.sh --version "${{ inputs.version }}" --output-dir "$RUNNER_TEMP/example-pdfs"
+        run: |
+          mkdir -p "$SERETO_PROJECTS_PATH" "$XDG_CONFIG_HOME"
+          bash release.sh --version "${{ inputs.version }}" --output-dir "$RUNNER_TEMP/example-pdfs"
 
       - name: Upload example PDFs
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

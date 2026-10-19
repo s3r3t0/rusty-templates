@@ -128,8 +128,16 @@ trap cleanup EXIT
 
 mkdir -p "$OUTPUT_DIR"
 
-export SERETO_PROJECTS_PATH="$WORK_DIR"
-export SERETO_TEMPLATES_PATH="$SCRIPT_DIR"
+export SERETO_PROJECTS_PATH="${SERETO_PROJECTS_PATH:-$WORK_DIR}"
+export SERETO_TEMPLATES_PATH="${SERETO_TEMPLATES_PATH:-$SCRIPT_DIR}"
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$WORK_DIR/.config}"
+
+mkdir -p "$SERETO_PROJECTS_PATH" "$XDG_CONFIG_HOME"
+
+if [[ ! -d "$SERETO_TEMPLATES_PATH" ]]; then
+  echo "SERETO_TEMPLATES_PATH '$SERETO_TEMPLATES_PATH' does not exist" >&2
+  exit 1
+fi
 
 cd "$WORK_DIR"
 
@@ -137,6 +145,8 @@ uv venv
 source .venv/bin/activate
 uv pip install sereto --requirements "$SERETO_TEMPLATES_PATH/requirements.txt"
 uv pip install -U sereto
+
+sereto settings edit --non-interactive --extra "{\"projects_path\":\"$SERETO_PROJECTS_PATH\",\"templates_path\":\"$SERETO_TEMPLATES_PATH\"}"
 
 sereto new "$TAG" --non-interactive --name "$PROJECT_NAME"
 cd "$SERETO_PROJECTS_PATH/$TAG"
