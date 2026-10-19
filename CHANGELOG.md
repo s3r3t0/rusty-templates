@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Simplify the example PDF workflow to rely on the release script's default temporary directories instead of the GitHub Actions `runner.temp` context.
+
 ## [0.9.1] - 2026-10-19
 
 ### Fixed
