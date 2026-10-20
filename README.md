@@ -50,8 +50,17 @@ Please, follow [SeReTo installation instructions][install] before you start usin
 
 The templates require the following tools to be installed:
 
-- Typst v0.14.0 or later
+- Typst v0.14.2 or later
 - pandoc v3.1.2 or later
+
+You can verify the dependencies with:
+
+```bash
+typst --version
+pandoc --version
+```
+
+If one of the commands is missing, install the tool and make sure it is available in your `PATH`.
 
 ### Installing
 
@@ -93,6 +102,8 @@ To generate the same example PDFs locally, run:
 ```bash
 bash release.sh --version v0.9.0 --output-dir ./dist/example-pdfs
 ```
+
+The release script validates Typst and Pandoc availability before rendering PDFs and prints their resolved versions.
 
 ## Versioning
 
