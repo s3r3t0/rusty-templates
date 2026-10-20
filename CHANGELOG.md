@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Flatten example PDF artifact output in CI so release assets are attached directly as PDFs instead of being nested under a version subdirectory.
+- Add a release preflight validation step that fails early with diagnostics when `dist/*.pdf` is empty.
+
 ## [0.9.3] - 2026-10-20
 
 ### Fixed

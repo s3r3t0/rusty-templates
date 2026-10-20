@@ -82,6 +82,23 @@ jobs:
           name: release-example-pdfs-${{ needs.resolve.outputs.version }}
           path: dist/
 
+      - name: Validate release PDFs
+        run: |
+          shopt -s nullglob
+          pdfs=(dist/*.pdf)
+
+          echo "Downloaded files in dist/:"
+          ls -la dist/
+
+          if ((${#pdfs[@]} == 0)); then
+            echo "::error::No PDFs found in dist/*.pdf. Expected example PDFs to be available directly in dist/."
+            echo "Debug listing (dist, depth 3):"
+            find dist -maxdepth 3 -type f -print
+            exit 1
+          fi
+
+          printf 'Found release PDF assets:\n%s\n' "${pdfs[@]}"
+
       - name: Create tag
         env:
           TAG: ${{ needs.resolve.outputs.version }}

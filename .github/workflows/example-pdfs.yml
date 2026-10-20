@@ -58,7 +58,7 @@ jobs:
           pandoc --version | head -n1
 
       - name: Generate example PDFs
-        run: bash release.sh --version "${{ inputs.version }}"
+        run: bash release.sh --version "${{ inputs.version }}" --output-dir dist/example-pdfs
 
       - name: Upload example PDFs
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
