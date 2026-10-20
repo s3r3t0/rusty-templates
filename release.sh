@@ -17,6 +17,17 @@ Generate the example SoW and report PDFs used for releases.
 EOF
 }
 
+require_command() {
+  local cmd="$1"
+  local install_hint="$2"
+
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "Missing required command '$cmd'." >&2
+    echo "$install_hint" >&2
+    exit 1
+  fi
+}
+
 find_latest_pdf() {
   local search_dir="$1"
   local latest_path=""
@@ -145,6 +156,12 @@ uv venv
 source .venv/bin/activate
 uv pip install sereto --requirements "$SERETO_TEMPLATES_PATH/requirements.txt"
 uv pip install -U sereto
+
+require_command "typst" "Install Typst v0.14.0+ and ensure it is available in PATH. See https://typst.app/docs/"
+require_command "pandoc" "Install Pandoc v3.1.2+ and ensure it is available in PATH. See https://pandoc.org/installing.html"
+
+printf 'Using Typst: %s\n' "$(typst --version)"
+printf 'Using Pandoc: %s\n' "$(pandoc --version | head -n1)"
 
 sereto settings edit --non-interactive --extra "{\"projects_path\":\"$SERETO_PROJECTS_PATH\",\"templates_path\":\"$SERETO_TEMPLATES_PATH\"}"
 

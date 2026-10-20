@@ -42,6 +42,21 @@ jobs:
         with:
           version: "latest-known"
 
+      - name: Install Typst
+        uses: typst-community/setup-typst@fee4b65b091cc546f02ce3be15fad8760f38a108 # v5.3.0
+        with:
+          typst-version: ^0.14.2
+
+      - name: Install Pandoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc
+
+      - name: Show Typst and Pandoc versions
+        run: |
+          typst --version
+          pandoc --version | head -n1
+
       - name: Generate example PDFs
         run: bash release.sh --version "${{ inputs.version }}"
 

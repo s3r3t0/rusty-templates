@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Ensure the example PDF pipeline explicitly installs Typst and Pandoc in CI and verifies the resolved versions before rendering.
+- Fail fast in the release script when Typst or Pandoc is missing, with actionable installation hints.
+
 ## [0.9.2] - 2026-10-19
 
 ### Fixed
