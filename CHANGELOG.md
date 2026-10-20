@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.4] - 2026-10-20
+
 ### Fixed
 
 - Flatten example PDF artifact output in CI so release assets are attached directly as PDFs instead of being nested under a version subdirectory.
@@ -112,7 +114,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the initial release of the project. The versioning starts at 0.5.0 to align with the versioning of SeReTo.
 
-[Unreleased]: https://github.com/s3r3t0/rusty-templates/compare/v0.9.3...HEAD
+[Unreleased]: https://github.com/s3r3t0/rusty-templates/compare/v0.9.4...HEAD
+[0.9.4]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.4
 [0.9.3]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.3
 [0.9.2]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.2
 [0.9.1]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.1
