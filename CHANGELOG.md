@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Resolve `--output-dir` to an absolute path in the release script so example PDF generation works even after changing into the temporary build directory.
+
 ## [0.9.4] - 2026-10-20
 
 ### Fixed
