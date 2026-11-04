@@ -83,13 +83,13 @@
   ((*- for target in c.targets *))
     ((* set api = target.filter_documents("api") | length > 0 *))
 = ((( target.data.name )))
-    <((( target.uname )))>
+    <((( target.data.id )))>
 
     == Scope
-      ((* include target.uname + "/scope.typ.j2" *))
+      ((* include target.directory_name + "/scope.typ.j2" *))
 
     == Approach
-      ((* include target.uname + "/approach.typ.j2" *))
+      ((* include target.directory_name + "/approach.typ.j2" *))
   ((* endfor *))
 ((* endblock content *))
 

@@ -4,7 +4,7 @@
     table.header[ID][Vulnerability][Risk][Due date],
     ((* for finding_group in target.findings.groups -*))
       [((( loop.index )))],
-      [#link(< (((- target.uname -))) _ (((- finding_group.uname -))) >)[
+      [#link(< (((- target.data.id -))) _ (((- finding_group.uname -))) >)[
         (((- finding_group.suggested_name -)))
       ]],
       [((( finding_group.risk | capitalize )))],

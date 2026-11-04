@@ -60,6 +60,6 @@
 
 ((* block content *))
   ((*- for target in c.targets *))
-    ((* include target.uname + ".typ.j2" *))
+    ((* include target.directory_name + ".typ.j2" *))
   ((* endfor -*))
 ((* endblock content *))

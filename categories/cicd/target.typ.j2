@@ -1,7 +1,7 @@
 ((* from "macros.typ.j2" import findings_table *))
 
 = ((( target.data.name )))
-<((( target.uname )))>
+<((( target.data.id )))>
 
     The ((( target.data.name ))) is a continuous integration pipeline which #lorem(15).
 
@@ -11,11 +11,11 @@
 
 === Scope
 
-    ((* include target.uname + "/scope.typ.j2" *))
+    ((* include target.directory_name + "/scope.typ.j2" *))
 
 === @CICD:long:cap
 
-    ((* include target.uname + "/approach.typ.j2" *))
+    ((* include target.directory_name + "/approach.typ.j2" *))
 
 == Findings
 
@@ -27,7 +27,7 @@
             vulnerability
         ((*- endif *)).
 
-        #figure(image(width: 90%, "/.build/((( target.uname )))/risks.png"))
+        #figure(image(width: 90%, "/.build/((( target.directory_name )))/risks.png"))
 
         The table below gives an overview of the vulnerabilities and the risk classification.
 
@@ -37,7 +37,7 @@
 
         ((* for finding_group in target.findings.groups -*))
             #pagebreak()
-            ((* include target.uname + "_" + finding_group.uname + ".typ.j2" *))
+            ((* include target.directory_name + "_" + finding_group.uname + ".typ.j2" *))
         ((* endfor -*))
     ((* else *))
         During the penetration test of the ((( target.data.name ))) target, the ((( team ))) team was unable to locate any vulnerability within the scope of the assessment.

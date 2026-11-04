@@ -1,7 +1,7 @@
 ((* from "macros.typ.j2" import finding_details, finding_group_details *))
 
 === (((finding_group.suggested_name)))
-< (((- target.uname -))) _ (((- finding_group.uname -))) >
+< (((- target.data.id -))) _ (((- finding_group.uname -))) >
 
 ((( finding_group_details(
   risk = finding_group.risk.value,
@@ -28,9 +28,9 @@
         locators = finding_group.subfinding_locators(finding),
         locators_title = "Location",
       ) ))),
-    include("/.build/((( target.uname )))/((( finding.uname ))).typ")
+    include("/.build/((( target.directory_name )))/((( finding.uname ))).typ")
     )
   ((* else *))
-    #include("/.build/((( target.uname )))/((( finding.uname ))).typ")
+    #include("/.build/((( target.directory_name )))/((( finding.uname ))).typ")
   ((* endif *))
 ((* endfor *))

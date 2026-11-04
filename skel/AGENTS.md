@@ -138,9 +138,11 @@ Layout and target templates (`.typ.j2`) use **custom Jinja2 delimiters** to avoi
 | Expressions | `((( ... )))` | `((( target.data.name )))` |
 | Comments | `((= ... =))` | `((= Scope =))` |
 | Extends | `((* extends "_base.typ.j2" *))` | |
-| Include | `((* include target.uname + "/scope.typ.j2" *))` | |
+| Include | `((* include target.directory_name + "/scope.typ.j2" *))` | |
 
 > **Do not** use standard `{% %}` / `{{ }}` Jinja2 in `.typ.j2` files — they will conflict with Typst syntax.
+
+Use `target.directory_name` for filesystem paths and generated-template includes, and `target.data.id` for stable target labels and links. Finding and finding-group identifiers still use `.uname`.
 
 ## Layout / Generated Files
 
