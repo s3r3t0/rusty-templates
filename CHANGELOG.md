@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Migrate target references to SeReTo's ID-based API: use `directory_name` for versioned paths and generated templates, and `data.id` for labels and links. Requires SeReTo with the target ID refactor.
+
 ## [0.9.5] - 2026-10-20
 
 ### Fixed
