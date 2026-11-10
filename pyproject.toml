@@ -6,7 +6,7 @@ requires-python = ">=3.12"
 [dependency-groups]
 test = ["pytest~=9.2.0"]
 lint = ["ruff~=0.17.3"]
-type = ["mypy~=2.4.0"]
+type = ["mypy~=2.4.1"]
 tox = ["tox~=4.67.13", "tox-gh~=1.9.3"]
 
 [tool.uv]
