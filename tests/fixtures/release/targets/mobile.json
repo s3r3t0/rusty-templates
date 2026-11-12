@@ -1,0 +1,26 @@
+{
+    "id": "0x02",
+    "documents": [
+        {
+            "type": "clickpath",
+            "value": "OWASP MAS Crackmes"
+        }
+    ],
+    "android": {
+        "file_integrity": {
+            "UnCrackable-Level1.apk": "sha256:1da8bf57d266109f9a07c01bf7111a1975ce01f190b9d914bcd3ae3dbef96f21",
+            "UnCrackable-Level2.apk": "sha256:4c7980ef1f6cc29508f38417c2a5b5b7721eeb4a3d7f00a0c1a08f5192fa6ddd"
+        },
+        "package_name": "owasp.mstg.uncrackable1",
+        "version_name": "1.0",
+        "version_code": "1"
+    },
+    "ios": {
+        "file_integrity": {
+            "UnCrackable-Level1.ipa": "sha256:8ade899b5f574f92dc2f1fb9fcf7093d9c6297e288985526391279cc5ae1db0f"
+        },
+        "bundle_id": "owasp.mstg.uncrackable1",
+        "short_version_string": "1.0",
+        "version": "1"
+    }
+}

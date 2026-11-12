@@ -1,0 +1,25 @@
+{
+    "id": "MOBA-01",
+    "documents": [
+        {
+            "type": "clickpath",
+            "value": "Example App Clickpath"
+        }
+    ],
+    "android": {
+        "file_integrity": {
+            "example.apk": "sha256:1da8bf57d266109f9a07c01bf7111a1975ce01f190b9d914bcd3ae3dbef96f21"
+        },
+        "package_name": "com.example.app",
+        "version_name": "1.0",
+        "version_code": "1"
+    },
+    "ios": {
+        "file_integrity": {
+            "example.ipa": "sha256:8ade899b5f574f92dc2f1fb9fcf7093d9c6297e288985526391279cc5ae1db0f"
+        },
+        "bundle_id": "com.example.app",
+        "short_version_string": "1.0",
+        "version": "1"
+    }
+}

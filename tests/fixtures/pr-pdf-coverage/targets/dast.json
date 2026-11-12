@@ -1,0 +1,36 @@
+{
+    "id": "DAST-01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://example.com/"
+        },
+        {
+            "type": "url",
+            "value": "http://api.example.com/"
+        },
+        {
+            "type": "ip",
+            "value": "192.0.2.1"
+        }
+    ],
+    "documents": [
+        {
+            "type": "api",
+            "value": "openapi.json",
+            "description": "Public API definition"
+        }
+    ],
+    "dst_ips_dynamic": false,
+    "dst_ips_dynamic_details": null,
+    "src_ips": [
+        "198.51.100.42"
+    ],
+    "ip_filtering": true,
+    "ip_allowed": true,
+    "authentication": false,
+    "exposure": "external",
+    "environment": "acceptance",
+    "waf_present": true,
+    "waf_whitelisted": false
+}

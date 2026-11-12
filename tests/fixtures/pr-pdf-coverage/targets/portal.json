@@ -1,0 +1,15 @@
+{
+    "id": "PORTAL-01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://cloud.example.com/subscription/001"
+        }
+    ],
+    "documents": [
+        {
+            "type": "scope",
+            "value": "cloud-scope.md"
+        }
+    ]
+}

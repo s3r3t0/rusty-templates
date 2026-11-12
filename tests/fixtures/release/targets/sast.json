@@ -1,0 +1,14 @@
+{
+    "id": "0x03",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://github.com/juice-shop/juice-shop"
+        }
+    ],
+    "code_origin": "vcs",
+    "code_origin_name": "GitHub",
+    "code_integrity": {
+        "v20.3.0": "sha1:f189f521266f42c6bd05884468292000cee852ed"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "id": "K8S-01",
+    "locators": [
+        {
+            "type": "hostname",
+            "value": "cluster.example.internal"
+        }
+    ],
+    "documents": [
+        {
+            "type": "scope",
+            "value": "kubernetes-scope.md"
+        }
+    ]
+}

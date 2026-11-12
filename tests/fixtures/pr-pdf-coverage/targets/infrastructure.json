@@ -1,0 +1,19 @@
+{
+    "id": "INFRA-01",
+    "locators": [
+        {
+            "type": "hostname",
+            "value": "gateway.example.internal"
+        },
+        {
+            "type": "ip",
+            "value": "203.0.113.25"
+        }
+    ],
+    "documents": [
+        {
+            "type": "scope",
+            "value": "infra-scope.md"
+        }
+    ]
+}

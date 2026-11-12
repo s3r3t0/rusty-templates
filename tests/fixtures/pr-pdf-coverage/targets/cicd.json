@@ -1,0 +1,16 @@
+{
+    "id": "CI-01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://ci.example.com/pipeline/security"
+        }
+    ],
+    "documents": [
+        {
+            "type": "diagram",
+            "value": "cicd-overview.pdf",
+            "description": "CI/CD architecture"
+        }
+    ]
+}

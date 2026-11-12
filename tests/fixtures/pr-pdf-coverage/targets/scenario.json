@@ -1,0 +1,15 @@
+{
+    "id": "SCENARIO-01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://scenario.example.com"
+        }
+    ],
+    "documents": [
+        {
+            "type": "scope",
+            "value": "scenario-scope.md"
+        }
+    ]
+}
