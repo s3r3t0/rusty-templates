@@ -11,6 +11,10 @@
     "code_integrity": {
         "v1.2.0": "sha1:f189f521266f42c6bd05884468292000cee852ed"
     },
+    "source_code_analyzer_files": [
+        "scan.sarif",
+        "sast_tool_report.pdf"
+    ],
     "documents": [
         {
             "type": "scope",

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a PDF coverage workflow for pull-request validation.
 
+### Fixed
+
+- Exclude responsible disclosure targets from statements of work, which do not support them.
+
 ## [0.9.5] - 2026-10-20
 
 ### Fixed

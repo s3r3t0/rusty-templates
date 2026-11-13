@@ -92,6 +92,7 @@ TARGET_SPECS=(
   "kubernetes|Kubernetes Cluster|kubernetes.json"
   "mobile|Mobile Application|mobile.json"
   "portal|Cloud Portal|portal.json"
+  "rd|Responsible Disclosure|rd.json"
   "sast|Source Code|sast.json"
   "scenario|Scenario Test|scenario.json"
 )
