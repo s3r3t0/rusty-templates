@@ -118,12 +118,23 @@ load_sereto_risks RISKS
 
 GROUP_RISK=$(preferred_risk "info" "${RISKS[@]}")
 
-# Ensure every target category renders finding-group and finding details.
+# Ensure every target category renders standalone finding and a finding group with sub-findings.
 for ((target_id=1; target_id<=TARGET_COUNT; target_id++)); do
   sereto findings add --non-interactive \
     --target "$target_id" \
+    --name "Coverage Finding $target_id" \
+    --risk "$GROUP_RISK" \
+    --template "$SERETO_TEMPLATES_PATH/categories/generic/findings/from_scratch.md.j2"
+  sereto findings add --non-interactive \
+    --target "$target_id" \
     --group-name "Coverage Group $target_id" \
-    --name "Coverage finding $target_id" \
+    --name "Coverage Sub-finding ${target_id}a" \
+    --risk "$GROUP_RISK" \
+    --template "$SERETO_TEMPLATES_PATH/categories/generic/findings/from_scratch.md.j2"
+  sereto findings add --non-interactive \
+    --target "$target_id" \
+    --group "finding_group_coverage_group_$target_id" \
+    --name "Coverage Sub-finding ${target_id}b" \
     --risk "$GROUP_RISK" \
     --template "$SERETO_TEMPLATES_PATH/categories/generic/findings/from_scratch.md.j2"
 done
