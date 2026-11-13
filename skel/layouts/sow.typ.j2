@@ -29,14 +29,15 @@
 
 
 ((* block preamble *))
+((* set sow_targets = c.filter_targets("rd", inverse=True) *))
 = Management summary
 
     ((* for person in c.filter_people(type="requestor") -*))
         ((( person.name ))) ( (((- person.business_unit -))) ) (((- ', ' if not loop.last )))
     ((*- endfor *)) engaged the ((( c.filter_people(type="author") | join(", ", "name") ))) ( (((- team -))) ) to perform a penetration test ((( c.name ))) (reference number ((( c.id )))) consisting of:
 
-    ((* if c.targets | length *))
-        ((* for t in c.targets *))
+    ((* if sow_targets | length *))
+        ((* for t in sow_targets *))
             - @((( t.data.category | upper ))):long:cap of #quote[((( t.data.name )))] target
             ((*- if t.data.id *))
                 ( (((- t.data.id -))) )
@@ -44,6 +45,8 @@
         ((* endfor *))
 
         Detailed information about the engagement is provided in the sections dedicated to each target.
+    ((* elif c.targets | length *))
+        No targets are supported by this statement of work.
     ((* else *))
         The engagement has not been specified.
     ((* endif *))
@@ -80,7 +83,7 @@
 
 
 ((* block content *))
-  ((*- for target in c.targets *))
+  ((*- for target in c.filter_targets("rd", inverse=True) *))
     ((* set api = target.filter_documents("api") | length > 0 *))
 = ((( target.data.name )))
     <((( target.uname )))>

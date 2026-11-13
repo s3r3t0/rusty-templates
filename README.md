@@ -100,7 +100,7 @@ The release flow is split into two GitHub Actions workflows. Use the manual **Pr
 To generate the same example PDFs locally, run:
 
 ```bash
-bash release.sh --version v0.9.0 --output-dir ./dist/example-pdfs
+bash scripts/release.sh --version v0.9.0 --output-dir ./dist/example-pdfs
 ```
 
 The release script validates Typst and Pandoc availability before rendering PDFs and prints their resolved versions.

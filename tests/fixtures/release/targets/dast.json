@@ -1,0 +1,35 @@
+{
+    "id": "0x01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://juice-shop.herokuapp.com/"
+        },
+        {
+            "type": "url",
+            "value": "http://demo.owasp-juice.shop/"
+        }
+    ],
+    "documents": [
+        {
+            "type": "clickpath",
+            "value": "Pwning OWASP Juice Shop"
+        },
+        {
+            "type": "api",
+            "value": "openapi.json"
+        }
+    ],
+    "dst_ips_dynamic": true,
+    "dst_ips_dynamic_details": "Heroku",
+    "src_ips": [
+        "198.51.100.42"
+    ],
+    "ip_filtering": true,
+    "ip_allowed": true,
+    "authentication": false,
+    "exposure": "external",
+    "environment": "acceptance",
+    "waf_present": true,
+    "waf_whitelisted": false
+}

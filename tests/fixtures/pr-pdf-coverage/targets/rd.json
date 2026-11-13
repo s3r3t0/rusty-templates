@@ -1,0 +1,16 @@
+{
+    "id": "RD-01",
+    "locators": [
+        {
+            "type": "url",
+            "value": "https://test.example.com/"
+        }
+    ],
+    "documents": [
+        {
+            "type": "attachment",
+            "value": "disclosure.md",
+            "description": "Original disclosure submission"
+        }
+    ]
+}
