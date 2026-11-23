@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-11-23
+
 ### Added
 
 - Added a PDF coverage workflow for pull-request validation.
@@ -128,7 +130,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 This is the initial release of the project. The versioning starts at 0.5.0 to align with the versioning of SeReTo.
 
-[Unreleased]: https://github.com/s3r3t0/rusty-templates/compare/v0.9.5...HEAD
+[Unreleased]: https://github.com/s3r3t0/rusty-templates/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.10.0
 [0.9.5]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.5
 [0.9.4]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.4
 [0.9.3]: https://github.com/s3r3t0/rusty-templates/releases/tag/v0.9.3
